@@ -2,33 +2,29 @@
 import React, { Component } from 'react';
 
 export default class Mana extends Component {
-	constructor (props) {
-		super(props);
-	}
-
 	_fullClassName (properties) {
-		let fullClassName = 'ms';
+		let fullClassName = "ms";
 		
-		if (properties.hasOwnProperty('symbol'))
+		if (properties.hasOwnProperty("symbol"))
 			fullClassName += ` ms-${properties.symbol}`;
 		
-		if (properties.hasOwnProperty('cost') &&
+		if (properties.hasOwnProperty("cost") &&
 				properties.cost)
-			fullClassName += ' ms-cost';
+			fullClassName += " ms-cost";
 	
-		if (properties.hasOwnProperty('shadow') &&
+		if (properties.hasOwnProperty("shadow") &&
 				properties.shadow)
-			fullClassName += ' ms-shadow';
+			fullClassName += " ms-shadow";
 
-		if (properties.hasOwnProperty('split') &&
+		if (properties.hasOwnProperty("split") &&
 				properties.split)
-			fullClassName += ' ms-split';
+			fullClassName += " ms-split";
 
-		if (properties.hasOwnProperty('half') &&
+		if (properties.hasOwnProperty("half") &&
 				properties.half)
-			fullClassName += ' ms-half';
+			fullClassName += " ms-half";
 	
-		if (properties.hasOwnProperty('size') &&
+		if (properties.hasOwnProperty("size") &&
 				properties.size > 1)
 			fullClassName += ` ms-${properties.size}x`;
 		

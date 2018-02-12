@@ -2,16 +2,12 @@
 import React, { Component } from 'react';
 
 // Local JS files
-import Mana from './Mana.js';
-import Keyrune from './Keyrune.js';
+import Mana from './Mana';
+// import Keyrune from './Keyrune';
 
 export default class Card extends Component {
-	constructor (props) {
-		super(props);
-	}
-
 	cardManaCost = manaCost => {
-		if (manaCost != "") {
+		if (manaCost !== "") {
 			let splitValues = manaCost.split("{");
 			let finalOutput = [];
 
@@ -20,9 +16,8 @@ export default class Card extends Component {
 			}
 
 			return finalOutput;
-		} else {
+		} else
 			return manaCost;
-		}
 	}
 	cardNumber = num => {
 		if (num < 10)
@@ -44,11 +39,11 @@ export default class Card extends Component {
 				</div>
 				<figcaption className="card-info">
 					<header className="card-info-row">
-						<h3>{card.name} {typeof(card.manaCost) != "undefined" &&
+						<h3>{card.name} {typeof(card.manaCost) !== "undefined" &&
 							<span className="card-info-mana-cost">
-								{this.cardManaCost(card.manaCost).map(manaShortcode => {
+								{this.cardManaCost(card.manaCost).map(manaShortcode => (
 									<Mana output={manaShortcode} />
-								})}
+								))}
 							</span>
 						}</h3>
 						<h4>{card.type}</h4>
@@ -59,8 +54,8 @@ export default class Card extends Component {
 					<div className="card-info-row">
 					</div>
 					<footer className="card-info-row">
-						{typeof(card.power) != "undefined" && typeof(card.toughness) != "undefined" &&
-							<p className="card-info-power-toughness">{"[" + card.power + "/" + card.toughness + "]"}</p>
+						{typeof(card.power) !== "undefined" && typeof(card.toughness) !== "undefined" &&
+							<p className="card-info-power-toughness">{`[${card.power}/${card.toughness}]`}</p>
 						}
 						<h5 className="card-info-set-number">({card.set} &middot; {this.cardNumber(card.number)})</h5>
 					</footer>
