@@ -26,17 +26,18 @@ input[type="file"] {
   top: -100vh;
 }
 input[type="search"] {
+
 }
 input[type="checkbox"] {
   cursor: pointer;
-  width: 1.5rem !important;
-  height: 1.5rem;
-  margin: .5rem 0 0 !important;
-  &:hover, &:focus {
-    background: rgba($blue, .1);
+  width: 1rem !important;
+  height: 1rem;
+  // margin: .5rem 0 0 !important;
+  &:hover, &:active {
+    background: $blue;
   }
   &:checked {
-    background: rgba($black, .5);
+    background: darken($blue, 10%);
   }
 }
 textarea {
@@ -45,4 +46,5 @@ textarea {
 }
 label {
   cursor: pointer;
+  padding: 0 .25rem;
 }
