@@ -1,0 +1,24 @@
+@import './scss/presets/typeface';
+@import './scss/presets/vars';
+@import './scss/presets/mixins';
+@import './scss/presets/keyframes';
+
+@import './scss/global/a';
+@import './scss/global/body';
+@import './scss/global/button';
+@import './scss/global/divp';
+@import './scss/global/figure';
+@import './scss/global/h';
+@import './scss/global/hr';
+@import './scss/global/img';
+@import './scss/global/input';
+@import './scss/global/scroll';
+@import './scss/global/select';
+
+@import './scss/layout/app';
+@import './scss/layout/main';
+@import './scss/layout/header';
+
+@import './scss/object/search-form';
+@import './scss/object/search-result';
+@import './scss/object/card';

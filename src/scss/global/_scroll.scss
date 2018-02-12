@@ -1,0 +1,13 @@
+::-webkit-scrollbar {
+  width: .75rem;
+}
+::-webkit-scrollbar-button {
+  display: none;
+}
+::-webkit-scrollbar-track {
+  background: linear-gradient(lighten($black, 15%), lighten($black, 10%));
+  // background: rgba($black, .1);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba($black, .4);
+}

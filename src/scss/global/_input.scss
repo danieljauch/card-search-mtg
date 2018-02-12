@@ -1,0 +1,48 @@
+input, select, textarea {
+  margin: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  box-shadow: none;
+  width: 100%;
+  max-width: 100%;
+  padding: .125rem .25rem;
+  background: rgba($white, .5);
+  font-family: 'Open Sans', arial, sans-serif;
+  border: 0;
+  border-radius: .25rem;
+  transition: {
+    property: background;
+    duration: .5s;
+    timing-function: $cubic;
+  }
+  &:focus {
+    background: $white;
+  }
+}
+input[type="file"] {
+  position: absolute;
+  z-index: -1;
+  top: -100vh;
+}
+input[type="search"] {
+}
+input[type="checkbox"] {
+  cursor: pointer;
+  width: 1.5rem !important;
+  height: 1.5rem;
+  margin: .5rem 0 0 !important;
+  &:hover, &:focus {
+    background: rgba($blue, .1);
+  }
+  &:checked {
+    background: rgba($black, .5);
+  }
+}
+textarea {
+  resize: vertical;
+  max-height: 11.5rem;
+}
+label {
+  cursor: pointer;
+}
