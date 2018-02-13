@@ -33,11 +33,23 @@ export default class Mana extends Component {
 
 	render () {
 		let { output } = this.props;
+		let splitString;
+		let adjustedOutput = "";
 
 		console.log("New mana symbol: " + output);
+
+		if (output.length > 1) {
+			splitString = output.split("");
+			for (let i = 0, l = splitString.length; i < l; i++) {
+				if (splitString[i] !== "/")
+					adjustedOutput += splitString[i];
+			}
+		} else {
+			adjustedOutput = output;
+		}
 		
 		return (
-			<i className={this._fullClassName(output)}></i>
+			<i className={`ms ms-${adjustedOutput} ms-cost ms-shadow`}></i>
 		);
 	}
 }

@@ -12,7 +12,7 @@ export default class Card extends Component {
 			let finalOutput = [];
 
 			for (let i = 1, l = splitValues.length; i < l; i++) {
-				finalOutput.push(splitValues[i].split("}")[0]);
+				finalOutput.push(splitValues[i].split("}")[0].toString().toLowerCase());
 			}
 
 			return finalOutput;
@@ -42,7 +42,7 @@ export default class Card extends Component {
 						<h3>{card.name} {typeof(card.manaCost) !== "undefined" &&
 							<span className="card-info-mana-cost">
 								{this.cardManaCost(card.manaCost).map(manaShortcode => (
-									<Mana output={manaShortcode} />
+									<Mana output={manaShortcode} key={manaShortcode} />
 								))}
 							</span>
 						}</h3>

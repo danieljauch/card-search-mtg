@@ -35,6 +35,9 @@
 }
 .card-info-mana-cost {
 	float: right;
+	i {
+		margin-left: .25rem;
+	}
 }
 .card-info-text {
 	font-size: .8em;

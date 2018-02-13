@@ -1,7 +1,7 @@
 // Core Components
 import React, { Component } from 'react';
 import FontAwesome from 'react-fontawesome';
-import { mtgCard } from 'mtgsdk';
+import { card } from 'mtgsdk';
 
 // Styles
 import './css/font-awesome.min.css';  // Docs: https://github.com/danawoodman/react-fontawesome/blob/master/api.md
@@ -42,10 +42,12 @@ export default class App extends Component {
       searchQuery["types"] = encodeURIComponent(this.state.cardTypes);
     }
 
-    mtgCard.where(searchQuery)
+    card.where(searchQuery)
       .then(result => {
         this.searchResult = result;
       });
+
+    // check valid results, no errors, backup search from local database
     
     return this.searchResult;
   }
