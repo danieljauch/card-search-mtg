@@ -20,8 +20,18 @@ export default class App extends Component {
   constructor (props) {
     super(props);
 
+
     this.state = {
+      searchResult: [],
+      searchCount: 0,
+      queuedSearch: {},
+      completedSearches: 0,
+      currentResultCount: 0,
+      runningResultCount: 0,
       searchInProgress: false,
+      resultsPage: 1,
+      searchBuffer: 10,
+      morePages: false,
       menuIsOpen: false,
       infoIsOpen: false,
       layout: "list", // "list" | "grid" | "card" | "text"
@@ -51,57 +61,96 @@ export default class App extends Component {
       }
     };
 
-    this.queuedSearch = {};
-    this.searchResult = [];
-    // this.searchQuery = {
-    //   name: encodeURIComponent(this.state.searchFieldValue),
-    //   colors: encodeURIComponent(this.state.colors),
-    //   types: encodeURIComponent(this.state.cardTypes),
-    //   set: encodeURIComponent(this.state.sets),
-    //   legalities: encodeURIComponent(this.state.format)
-    // }
-
     this.handleSearchValueChange = this.handleSearchValueChange.bind(this);
     this.handleAdvancedSearchChange = this.handleAdvancedSearchChange.bind(this);
   }
 
   search = () => {
-    let searchQuery = this.queuedSearch === {}
-      ? { name: this.state.searchFieldValue }
-      : this.queuedSearch;
+    this.setState({
+      searchCount: this.state.searchCount + 1
+    });
+    
+    let searchQuery;
+    if (this.state.queuedSearch === {}) {
+      searchQuery = {
+        name: encodeURIComponent(this.state.searchFieldValue),
+        pageSize: encodeURIComponent(this.state.searchBuffer),
+        page: encodeURIComponent(this.state.resultsPage)
+      };
 
-    if (this.state.colors !== []) {
-      searchQuery["colors"] = encodeURIComponent(this.state.colors);
-    }
-    if (this.state.cardTypes !== []) {
-      searchQuery["types"] = encodeURIComponent(this.state.cardTypes);
-    }
+      if (this.state.colors !== [])
+        searchQuery["colors"] = encodeURIComponent(this.state.colors);
+        
+      if (this.state.cardTypes !== [])
+        searchQuery["types"] = encodeURIComponent(this.state.cardTypes);
+        
+      if (this.state.sets !== [])
+        searchQuery["set"] = encodeURIComponent(this.state.sets);
+        
+      if (this.state.format !== [])
+        searchQuery["legalities"] = encodeURIComponent(this.state.format);
+    } else
+      searchQuery = this.state.queuedSearch;
+
 
     if (!this.state.searchInProgress) {
       this.setState({
         searchInProgress: true
       });
 
-      if (this.queuedSearch !== {})
-        this.queuedSearch = {};
+      if (this.state.queuedSearch !== {}) {
+        this.setState({
+          queuedSearch: {}
+        });
+      }
   
       card.where(searchQuery)
         .then(result => {
           this.setState({
-            searchInProgress: false
+            searchInProgress: false,
+            searchResult: result,
+            completedSearches: this.state.completedSearches + 1,
+            currentResultCount: result.length,
+            runningResultCount: this.state.runningResultCount + result.length,
+            morePages: this.state.currentResultCount > this.state.pageSize
           });
-          this.searchResult = result;
         });
   
       // check valid results, no errors, backup search from local database
+
+      console.log("Stats:");
+      console.log("searchQuery:", searchQuery);
+      console.log("searchCount:", this.state.searchCount);
+      console.log("completedSearches:", this.state.completedSearches);
+      console.log("currentResultCount:", this.state.currentResultCount);
+      console.log("runningResultCount:", this.state.runningResultCount);
+      console.log("morePages:", this.state.morePages);
     } else {
       setTimeout(() => {
-        this.queuedSearch = { name: this.state.searchFieldValue };
+        this.setState({
+          queuedSearch: {
+            name: encodeURIComponent(this.state.searchFieldValue),
+            colors: encodeURIComponent(this.state.colors),
+            types: encodeURIComponent(this.state.cardTypes),
+            set: encodeURIComponent(this.state.sets),
+            legalities: encodeURIComponent(this.state.format),
+            pageSize: encodeURIComponent(this.state.searchBuffer),
+            page: encodeURIComponent(this.state.resultsPage)
+          }
+        });
+
         this.search();
       }, TICKRATE);
     }
       
-    return this.searchResult;
+    return this.state.searchResult;
+  }
+  emptySearch = () => {
+    return this.state.searchFieldValue === ""
+      && this.state.colors === []
+      && this.state.cardTypes === []
+      && this.state.sets === []
+      && this.state.format === [];
   }
   menuToggle = () => {
     this.setState({
@@ -119,7 +168,7 @@ export default class App extends Component {
   }
   handleSearchValueChange = searchValue => {
     this.setState({
-      searchFieldValue: searchValue
+      searchFieldValue: encodeURIComponent(searchValue)
     });
     this.search();
 
@@ -136,13 +185,10 @@ export default class App extends Component {
   render() {
     let menuClass = this.state.menuIsOpen ? "menu open" : "menu";
     let footerClass = this.state.infoIsOpen ? "app-footer open" : "app-footer";
-    let emptySearch = this.state.searchFieldValue === ""
-      && this.state.colors === []
-      && this.state.cardTypes === [];
-    let appMain = emptySearch
+    let appMain = this.emptySearch()
       ? <div className="no-search-yet">Type a card name in the search bar above</div>
       : <section className={`search-result-wrap ${this.state.layout}-layout`}>
-          {this.searchResult.map(card => (
+          {this.state.searchResult.map(card => (
             <Card key={`card-${card.id}`}
               card={card} />
           ))}
