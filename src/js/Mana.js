@@ -35,21 +35,22 @@ export default class Mana extends Component {
 		let { output } = this.props;
 		let splitString;
 		let adjustedOutput = "";
-
-		console.log("New mana symbol: " + output);
+		let split = false;
 
 		if (output.length > 1) {
 			splitString = output.split("");
 			for (let i = 0, l = splitString.length; i < l; i++) {
-				if (splitString[i] !== "/")
+				if (splitString[i] !== "/") {
 					adjustedOutput += splitString[i];
+					split = true;
+				}
 			}
 		} else {
 			adjustedOutput = output;
 		}
 		
 		return (
-			<i className={`ms ms-${adjustedOutput} ms-cost ms-shadow`}></i>
+			<i className={`ms ms-${adjustedOutput} ms-cost ms-shadow ${split ? "ms-split" : ""}`}></i>
 		);
 	}
 }

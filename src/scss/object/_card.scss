@@ -3,14 +3,51 @@
 	display: inline-flex;
 	justify-content: space-around;
 	align-items: stretch;
-	background: linear-gradient($blue,
-		$blue 4.49rem,
-		$white 4.5rem,
-		$white);
 	padding: 1em;
 	border-radius: .5em;
 	box-shadow: .25rem .5rem 1rem rgba($black, .5);
-	margin-bottom: 1rem;
+	&.color-identity-W {
+		background: linear-gradient($mtg-white,
+			darken($mtg-white, 10%) 4.49rem,
+			$white 4.5rem,
+			$white);
+	}
+	&.color-identity-U {
+		background: linear-gradient($mtg-blue,
+			darken($mtg-blue, 10%) 4.49rem,
+			$white 4.5rem,
+			$white);
+	}
+	&.color-identity-B {
+		background: linear-gradient($mtg-black,
+			darken($mtg-black, 10%) 4.49rem,
+			$white 4.5rem,
+			$white);
+	}
+	&.color-identity-R {
+		background: linear-gradient($mtg-red,
+			darken($mtg-red, 10%) 4.49rem,
+			$white 4.5rem,
+			$white);
+	}
+	&.color-identity-G {
+		background: linear-gradient($mtg-green,
+			darken($mtg-green, 10%) 4.49rem,
+			$white 4.5rem,
+			$white);
+	}
+	&.color-identity-C {
+		background: linear-gradient($mtg-colorless,
+			darken($mtg-colorless, 10%) 4.49rem,
+			$white 4.5rem,
+			$white);
+	}
+	&.color-identity-M {
+		background: linear-gradient($mtg-gold,
+			darken($mtg-gold, 10%) 4.49rem,
+			$white 4.5rem,
+			$white);
+	}
 }
 .card-img-wrap {
 	flex-basis: 25%;
@@ -24,17 +61,19 @@
 .card-info {
 	flex-basis: 75%;
 	padding: 0 1rem;
-	header {
-		margin-bottom: 1.5rem;
-	}
 	footer {
 		padding-top: .5rem;
 		border-top: .25rem solid $blue;
 		margin-top: .5rem;
 	}
 }
+.card-header-row {
+	margin-bottom: 1.5rem;
+	// color: $white;
+}
 .card-info-mana-cost {
 	float: right;
+	margin-top: -2rem;
 	i {
 		margin-left: .25rem;
 	}

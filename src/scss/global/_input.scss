@@ -19,6 +19,9 @@ input, select, textarea {
   &:focus {
     background: $white;
   }
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 100rem $white inset;
+  }
 }
 input[type="file"] {
   position: absolute;

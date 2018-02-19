@@ -2,12 +2,18 @@
   width: .75rem;
 }
 ::-webkit-scrollbar-button {
-  display: none;
+  display: block;
+  background: $green;
+  height: .75rem;
 }
 ::-webkit-scrollbar-track {
   background: linear-gradient(lighten($black, 15%), lighten($black, 10%));
-  // background: rgba($black, .1);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba($black, .4);
+  background: darken($green, 10%);
+  cursor: pointer;
+  border-radius: .25rem;
+  &:hover {
+    background: $green;
+  }
 }

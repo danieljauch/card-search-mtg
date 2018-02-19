@@ -1,7 +1,7 @@
 button, .btn {
   background: $blue;
   color: rgba($white, .9);
-  padding: .25em .5em .125em .5em;
+  padding: .25em .5em;
   cursor: pointer;
   border: .125em solid $blue;
   border-radius: .25em;
@@ -30,6 +30,9 @@ button, .btn {
   }
   &.submit-btn {
     float: right;
+  }
+  &.circle-btn {
+    border-radius: 50%;
   }
 }
 .btn-lite {

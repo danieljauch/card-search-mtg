@@ -10,6 +10,8 @@ import './css/mana.min.css';          // Docs: https://andrewgioia.github.io/Man
 import './App.scss';
 
 // Local JS files
+import Search from './js/Search';
+import Menu from './js/Menu';
 import Card from './js/Card';
 
 export default class App extends Component {
@@ -17,23 +19,45 @@ export default class App extends Component {
     super(props);
 
     this.state = {
+      searchInProgress: false,
       menuIsOpen: false,
+      infoIsOpen: false,
+      layout: "list", // "list" | "grid" | "card" | "text"
       searchFieldValue: "",
       colors: [],
       cardTypes: []
     };
 
+    this.menu = {
+      "Colors": {
+        type: "Checkboxes",
+        list: [ "White", "Blue", "Black", "Red", "Green", "Colorless" ]
+      },
+      "Card Types": {
+        type: "Checkboxes",
+        list: [ "Creature", "Enchantment", "Sorcery", "Instant", "Artifact", "Land", "Planeswalker", "Emblem", "Token" ]
+      },
+      "Set": {
+        type: "Search",
+        list: [] // Dynamically built from search?
+      },
+      "Format": {
+        type: "Checkboxes",
+        list: [ "Standard", "Modern", "Vintage", "Legacy", "Pauper", "Peasant", "Commander", "Conspiracy", "Silver-border" ]
+      }
+    };
+
+    this.queuedSearch = {};
     this.searchResult = [];
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleSearchValueChange = this.handleSearchValueChange.bind(this);
     this.handleAdvancedSearchChange = this.handleAdvancedSearchChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  search = _ => {
-    let searchQuery = {
-      name: this.state.searchFieldValue
-    };
+  search = () => {
+    let searchQuery = this.queuedSearch === {}
+      ? this.queuedSearch
+      : { name: this.state.searchFieldValue };
 
     if (this.state.colors !== []) {
       searchQuery["colors"] = encodeURIComponent(this.state.colors);
@@ -42,29 +66,53 @@ export default class App extends Component {
       searchQuery["types"] = encodeURIComponent(this.state.cardTypes);
     }
 
-    card.where(searchQuery)
-      .then(result => {
-        this.searchResult = result;
+    if (!this.state.searchInProgress) {
+      this.setState({
+        searchInProgress: true
       });
 
-    // check valid results, no errors, backup search from local database
-    
+      if (this.queuedSearch !== {})
+        this.queuedSearch = {};
+  
+      card.where(searchQuery)
+        .then(result => {
+          this.setState({
+            searchInProgress: false
+          });
+          this.searchResult = result;
+        });
+  
+      // check valid results, no errors, backup search from local database
+    } else {
+      setTimeout(() => {
+        this.queuedSearch = { name: this.state.searchFieldValue };
+        this.search();
+      }, 100);
+    }
+      
     return this.searchResult;
   }
-  menuToggle = _ => {
+  menuToggle = () => {
     this.setState({
       menuIsOpen: !this.state.menuIsOpen
     });
 
     return this.state.menuIsOpen;
   }
-  handleChange = e => {
+  infoToggle = () => {
     this.setState({
-      searchFieldValue: e.target.value
+      infoIsOpen: !this.state.infoIsOpen
+    });
+
+    return this.state.infoIsOpen;
+  }
+  handleSearchValueChange = searchValue => {
+    this.setState({
+      searchFieldValue: searchValue
     });
     this.search();
 
-    return e.target.value;
+    return searchValue;
   }
   handleAdvancedSearchChange = e => {
     let settingSplit = e.target.id.split("_");
@@ -101,147 +149,75 @@ export default class App extends Component {
 
     this.search();
   }
-  handleSubmit = e => {
-    e.preventDefault();
-  }
 
   render() {
-    let appMain = this.state.searchFieldValue === "" && this.state.colors === [] && this.state.cardTypes === []
-        ? <div className="no-search-yet">Type a card name in the searchbar above</div>
-        : <section className="search-result-wrap">
-            {this.searchResult.map(card => (
-              <Card key={`card-${card.id}`}
-                card={card} />
-            ))}
-          </section>
+    let menuClass = this.state.menuIsOpen ? "menu open" : "menu";
+    let footerClass = this.state.infoIsOpen ? "app-footer open" : "app-footer";
+    let emptySearch = this.state.searchFieldValue === ""
+      && this.state.colors === []
+      && this.state.cardTypes === [];
+    let appMain = emptySearch
+      ? <div className="no-search-yet">Type a card name in the search bar above</div>
+      : <section className={`search-result-wrap ${this.state.layout}-layout`}>
+          {this.searchResult.map(card => (
+            <Card key={`card-${card.id}`}
+              card={card} />
+          ))}
+        </section>;
 
     return (
       <div className="app">
         <header className="app-header">
           <h1 className="header-title">MTG Card Search</h1>
-          <form className="search-form" onSubmit={this.handleSubmit}>
-            <input type="search"
-              className="search-input"
-              id="searchInput"
-              value={this.state.searchFieldValue}
-              onChange={this.handleChange}
-              placeholder="Search..."
-              autoFocus="true" />
-            {/* <button className="btn search-submit-btn" onClick={this.handleSubmit}>Search</button> */}
-          </form>
+          <Search handleChange={this.handleSearchValueChange} />
           <nav className="advanced-search">
             <button className="btn menu-toggle-btn" onClick={this.menuToggle}>
-              Advanced
+              <span>Advanced</span>
               <FontAwesome name="menu" />
             </button>
-            <ul className={this.state.menuIsOpen ? "menu open" : "menu"}>
-              <li className="menu-item">
-                <h3 className="menu-item-title">Colors</h3>
-                <section className="menu-choice-wrap">
-                  <div className="menu-choice">
-                    <input type="checkbox"
-                      id="colorSetting_White"
-                      onChange={this.handleAdvancedSearchChange} />
-                    <label htmlFor="colorSetting_White">White</label>
-                  </div>
-                  <div className="menu-choice">
-                    <input type="checkbox"
-                      id="colorSetting_Blue"
-                      onChange={this.handleAdvancedSearchChange} />
-                    <label htmlFor="colorSetting_Blue">Blue</label>
-                  </div>
-                  <div className="menu-choice">
-                    <input type="checkbox"
-                      id="colorSetting_Black"
-                      onChange={this.handleAdvancedSearchChange} />
-                    <label htmlFor="colorSetting_Black">Black</label>
-                  </div>
-                  <div className="menu-choice">
-                    <input type="checkbox"
-                      id="colorSetting_Red"
-                      onChange={this.handleAdvancedSearchChange} />
-                    <label htmlFor="colorSetting_Red">Red</label>
-                  </div>
-                  <div className="menu-choice">
-                    <input type="checkbox"
-                      id="colorSetting_Green"
-                      onChange={this.handleAdvancedSearchChange} />
-                    <label htmlFor="colorSetting_Green">Green</label>
-                  </div>
-                  <div className="menu-choice">
-                    <input type="checkbox"
-                      id="colorSetting_Colorless"
-                      onChange={this.handleAdvancedSearchChange} />
-                    <label htmlFor="colorSetting_Colorless">Colorless</label>
-                  </div>
-                </section>
-              </li>
-              <li className="menu-item">
-                <h3 className="menu-item-title">Card types</h3>
-                <section className="menu-choice-wrap">
-                  <div className="menu-choice">
-                    <input type="checkbox"
-                      id="cardTypeSetting_Creature"
-                      onChange={this.handleAdvancedSearchChange} />
-                    <label htmlFor="cardTypeSetting_Creature">Creature</label>
-                  </div>
-                  <div className="menu-choice">
-                    <input type="checkbox"
-                      id="cardTypeSetting_Enchantment"
-                      onChange={this.handleAdvancedSearchChange} />
-                    <label htmlFor="cardTypeSetting_Enchantment">Enchantment</label>
-                  </div>
-                  <div className="menu-choice">
-                    <input type="checkbox"
-                      id="cardTypeSetting_Sorcery"
-                      onChange={this.handleAdvancedSearchChange} />
-                    <label htmlFor="cardTypeSetting_Sorcery">Sorcery</label>
-                  </div>
-                  <div className="menu-choice">
-                    <input type="checkbox"
-                      id="cardTypeSetting_Instant"
-                      onChange={this.handleAdvancedSearchChange} />
-                    <label htmlFor="cardTypeSetting_Instant">Instant</label>
-                  </div>
-                  <div className="menu-choice">
-                    <input type="checkbox"
-                      id="cardTypeSetting_Artifact"
-                      onChange={this.handleAdvancedSearchChange} />
-                    <label htmlFor="cardTypeSetting_Artifact">Artifact</label>
-                  </div>
-                  <div className="menu-choice">
-                    <input type="checkbox"
-                      id="cardTypeSetting_Land"
-                      onChange={this.handleAdvancedSearchChange} />
-                    <label htmlFor="cardTypeSetting_Land">Land</label>
-                  </div>
-                  <div className="menu-choice">
-                    <input type="checkbox"
-                      id="cardTypeSetting_Planeswalker"
-                      onChange={this.handleAdvancedSearchChange} />
-                    <label htmlFor="cardTypeSetting_Planeswalker">Planeswalker</label>
-                  </div>
-                  <div className="menu-choice">
-                    <input type="checkbox"
-                      id="cardTypeSetting_Emblem"
-                      onChange={this.handleAdvancedSearchChange} />
-                    <label htmlFor="cardTypeSetting_Emblem">Emblem</label>
-                  </div>
-                  <div className="menu-choice">
-                    <input type="checkbox"
-                      id="cardTypeSetting_Token"
-                      onChange={this.handleAdvancedSearchChange} />
-                    <label htmlFor="cardTypeSetting_Token">Token</label>
-                  </div>
-                </section>
-              </li>
-            </ul>
+            <Menu menuClass={menuClass}
+              menu={this.menu}
+              handleChange={this.handleAdvancedSearchChange} />
           </nav>
         </header>
         <main className="app-main">
           {appMain}
         </main>
+        <footer className={footerClass}>
+          <button className="btn info-btn circle-btn" onClick={this.infoToggle}>
+            <FontAwesome name="info" />
+          </button>
+          <article className="information">
+            <p>Created by <a href="https://danieljauch.bitbucket.io/">Daniel Jauch</a></p>
+          </article>
+        </footer>
       </div>
     );
   }
 }
+
+
+// class Parent extends React.Component {
+//   constructor(props) {
+//     super(props)
+
+//     this.handler = this.handler.bind(this)
+//   }
+
+//   handler(e) {
+//     e.preventDefault()
+//     this.setState({
+//       someVar: someValue
+//     })
+//   }
+
+//   render() {
+//     return <Child handler = {this.handler} />
+//   }
+// }
+
+// class Child extends React.Component {
+//   render() {
+//     return <Button onClick = {this.props.handler}/ >
+//   }
+// }

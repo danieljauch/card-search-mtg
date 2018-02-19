@@ -2,4 +2,47 @@
 	margin: 0 auto;
 	width: 100%;
 	max-width: 100em;
+	&.list-layout {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		.card-wrap {
+			margin-bottom: 1rem;
+		}
+	}
+	&.grid-layout,
+	&.card-layout {
+		display: grid;
+		grid-template-rows: auto;
+		grid-gap: .5rem;
+	}
+	&.grid-layout {
+		grid-template-columns: repeat(2, 1fr);
+	}
+	&.card-layout {
+		grid-template-columns: repeat(4, 1fr);
+		.card-wrap {
+			display: flex;
+			flex-direction: column;
+		}
+		.card-img-wrap {
+			margin-bottom: 1rem;
+		}
+		.card-info-mana-cost {
+			float: none;
+			margin: 0;
+		}
+	}
+	&.text-layout {
+		.card-wrap {
+			margin-bottom: 1rem;
+		}
+		.card-img-wrap {
+			display: none;
+		}
+		.card-info {
+			flex-basis: 100%;
+			padding: 0;
+		}
+	}
 }

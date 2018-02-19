@@ -31,22 +31,32 @@ export default class Card extends Component {
 
 	render () {
 		let { card } = this.props;
+		let colorIdentity;
 
+		if (typeof(card.colorIdentity) !== "undefined") {
+			if (card.colorIdentity.length === 1)
+				colorIdentity = card.colorIdentity.join("");
+			else
+				colorIdentity = "M";
+		} else
+			colorIdentity = "C";
+		
 		return (
-			<figure className="card-wrap">
+			<figure className={`card-wrap color-identity-${colorIdentity}`}>
 				<div className="card-img-wrap">
 					<img className="card-img" src={card.imageUrl} alt={card.name} />
 				</div>
 				<figcaption className="card-info">
-					<header className="card-info-row">
-						<h3>{card.name} {typeof(card.manaCost) !== "undefined" &&
+					<header className="card-header-row">
+						<h3>{card.name}</h3>
+						<h4>{card.type}</h4>
+						{typeof(card.manaCost) !== "undefined" &&
 							<span className="card-info-mana-cost">
-								{this.cardManaCost(card.manaCost).map(manaShortcode => (
-									<Mana output={manaShortcode} key={manaShortcode} />
+								{this.cardManaCost(card.manaCost).map((manaShortcode, index) => (
+									<Mana output={manaShortcode} key={index} />
 								))}
 							</span>
-						}</h3>
-						<h4>{card.type}</h4>
+						}
 					</header>
 					<div className="card-info-row">
 						<p className="card-info-text">{card.text}</p>
