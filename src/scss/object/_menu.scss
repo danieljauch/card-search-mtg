@@ -18,7 +18,7 @@
 	overflow: auto;
 	opacity: 0;
 	color: rgba($white, .9);
-	background: rgba($black, .9);
+	background: linear-gradient(to bottom right, rgba($black, .9), rgba(lighten($black, 10%), .9));
 	font-size: .8rem;
 	padding: 1rem;
 	border-radius: 1rem;
@@ -43,11 +43,16 @@
 	margin-bottom: .25rem;
 }
 .menu-choice-wrap {
-	display: grid;
-	grid: {
-		template: {
-			columns: repeat(2, 1fr);
-			rows: auto;
+	&.checkbox-menu-choices {
+		display: grid;
+		grid: {
+			template: {
+				columns: repeat(2, 1fr);
+				rows: auto;
+			}
 		}
+	}
+	&.search-menu-choices {
+
 	}
 }

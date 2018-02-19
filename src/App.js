@@ -14,6 +14,8 @@ import Search from './js/Search';
 import Menu from './js/Menu';
 import Card from './js/Card';
 
+const TICKRATE = 100;
+
 export default class App extends Component {
   constructor (props) {
     super(props);
@@ -25,7 +27,9 @@ export default class App extends Component {
       layout: "list", // "list" | "grid" | "card" | "text"
       searchFieldValue: "",
       colors: [],
-      cardTypes: []
+      cardTypes: [],
+      sets: [],
+      format: []
     };
 
     this.menu = {
@@ -49,6 +53,13 @@ export default class App extends Component {
 
     this.queuedSearch = {};
     this.searchResult = [];
+    // this.searchQuery = {
+    //   name: encodeURIComponent(this.state.searchFieldValue),
+    //   colors: encodeURIComponent(this.state.colors),
+    //   types: encodeURIComponent(this.state.cardTypes),
+    //   set: encodeURIComponent(this.state.sets),
+    //   legalities: encodeURIComponent(this.state.format)
+    // }
 
     this.handleSearchValueChange = this.handleSearchValueChange.bind(this);
     this.handleAdvancedSearchChange = this.handleAdvancedSearchChange.bind(this);
@@ -56,8 +67,8 @@ export default class App extends Component {
 
   search = () => {
     let searchQuery = this.queuedSearch === {}
-      ? this.queuedSearch
-      : { name: this.state.searchFieldValue };
+      ? { name: this.state.searchFieldValue }
+      : this.queuedSearch;
 
     if (this.state.colors !== []) {
       searchQuery["colors"] = encodeURIComponent(this.state.colors);
@@ -87,7 +98,7 @@ export default class App extends Component {
       setTimeout(() => {
         this.queuedSearch = { name: this.state.searchFieldValue };
         this.search();
-      }, 100);
+      }, TICKRATE);
     }
       
     return this.searchResult;
@@ -114,38 +125,10 @@ export default class App extends Component {
 
     return searchValue;
   }
-  handleAdvancedSearchChange = e => {
-    let settingSplit = e.target.id.split("_");
-    let tempArray = [];
-    let removeIndex;
-
-    if (settingSplit[0] === "colorSetting") {
-      tempArray = this.state.colors;
-
-      if (e.target.checked) {
-        tempArray.push(settingSplit[1]);
-      } else {
-        removeIndex = tempArray.indexOf(settingSplit[1]);
-        tempArray.splice(removeIndex, 1);
-      }
-
-      this.setState({
-        colors: tempArray
-      });
-    } else if (settingSplit[0] === "cardTypeSetting") {
-      tempArray = this.state.cardTypes;
-
-      if (e.target.checked) {
-        tempArray.push(settingSplit[1]);
-      } else {
-        removeIndex = tempArray.indexOf(settingSplit[1]);
-        tempArray.splice(removeIndex, 1);
-      }
-
-      this.setState({
-        cardTypes: tempArray
-      });
-    }
+  handleAdvancedSearchChange = change => {
+    this.setState({
+      [change.propToChange]: change.updatedArray
+    })
 
     this.search();
   }
@@ -177,7 +160,11 @@ export default class App extends Component {
             </button>
             <Menu menuClass={menuClass}
               menu={this.menu}
-              handleChange={this.handleAdvancedSearchChange} />
+              handleChange={this.handleAdvancedSearchChange}
+              colors={this.state.colors}
+              cardTypes={this.state.cardTypes}
+              sets={this.state.sets}
+              format={this.state.format} />
           </nav>
         </header>
         <main className="app-main">
@@ -195,29 +182,3 @@ export default class App extends Component {
     );
   }
 }
-
-
-// class Parent extends React.Component {
-//   constructor(props) {
-//     super(props)
-
-//     this.handler = this.handler.bind(this)
-//   }
-
-//   handler(e) {
-//     e.preventDefault()
-//     this.setState({
-//       someVar: someValue
-//     })
-//   }
-
-//   render() {
-//     return <Child handler = {this.handler} />
-//   }
-// }
-
-// class Child extends React.Component {
-//   render() {
-//     return <Button onClick = {this.props.handler}/ >
-//   }
-// }
