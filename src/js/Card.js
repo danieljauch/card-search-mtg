@@ -2,8 +2,7 @@
 import React, { Component } from 'react';
 
 // Local JS files
-import Mana from './Mana';
-// import Keyrune from './Keyrune';
+import MTGSymbol from './MTGSymbol';
 
 export default class Card extends Component {
 	cardManaCost = manaCost => {
@@ -32,6 +31,7 @@ export default class Card extends Component {
 	render () {
 		let { card } = this.props;
 		let colorIdentity;
+		
 
 		if (typeof(card.colorIdentity) !== "undefined") {
 			if (card.colorIdentity.length === 1)
@@ -53,7 +53,9 @@ export default class Card extends Component {
 						{typeof(card.manaCost) !== "undefined" &&
 							<span className="card-info-mana-cost">
 								{this.cardManaCost(card.manaCost).map((manaShortcode, index) => (
-									<Mana output={manaShortcode} key={index} />
+									<MTGSymbol output={manaShortcode}
+										type="mana"
+										key={index} />
 								))}
 							</span>
 						}
@@ -67,7 +69,14 @@ export default class Card extends Component {
 						{typeof(card.power) !== "undefined" && typeof(card.toughness) !== "undefined" &&
 							<p className="card-info-power-toughness">{`[${card.power}/${card.toughness}]`}</p>
 						}
-						<h5 className="card-info-set-number">({card.set} &middot; {this.cardNumber(card.number)})</h5>
+						<h5 className="card-info-set-number">
+							<span className="card-info-set-symbol">
+								<MTGSymbol output={card.set.toString().toLowerCase()}
+									type="keyrune"
+									rarity={card.rarity.toString().toLowerCase()} />
+							</span>
+							<span className="card-info-set-text">({card.set} &middot; {this.cardNumber(card.number)})</span>
+						</h5>
 					</footer>
 				</figcaption>
 			</figure>

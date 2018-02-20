@@ -84,5 +84,11 @@
 .card-info-set-number {
 	font-weight: 400;
 	text-align: right;
-	color: rgba($black, .5);
+	.card-info-set-symbol {
+		padding-right: .5rem;
+		font-size: 1.5em;
+	}
+	.card-info-set-text {
+		color: rgba($black, .5);
+	}
 }

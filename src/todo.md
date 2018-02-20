@@ -2,11 +2,7 @@
 
 ##MTG symbols:
 
-	- [ ]: Fix phyrexian mana
-	- [ ]: Make the cost class symbol simpler
-	- [ ]: Add set symbols to the display
 	- [ ]: Replace cost symbols in card text
-	- [ ]: Combine keyrune and mana into one file
 
 ##Layout:
 
@@ -25,5 +21,7 @@
 	- [ ]: Load transition
 	- [ ]: Clear advanced filter
 	- [ ]: Pages
-	- [ ]: Buffer limit setting
+	- [ ]: Buffer limit 
+	- [ ]: CMC setting
+	- [ ]: Rarity setting
 	- [ ]: Stat modal

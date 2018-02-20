@@ -1,12 +1,12 @@
 // Core Components
-import React, { Component } from 'react';
-import FontAwesome from 'react-fontawesome';
-import { card } from 'mtgsdk';
+import React, { Component } from 'react';     // Docs: https://reactjs.org/docs/
+import FontAwesome from 'react-fontawesome';  // Docs: https://github.com/danawoodman/react-fontawesome
+import { card } from 'mtgsdk';                // Docs: https://docs.magicthegathering.io/
 
 // Styles
-import './css/font-awesome.min.css';  // Docs: https://github.com/danawoodman/react-fontawesome/blob/master/api.md
-import './css/keyrune.min.css';       // Docs: https://andrewgioia.github.io/Keyrune/
-import './css/mana.min.css';          // Docs: https://andrewgioia.github.io/Mana/
+import './css/font-awesome.min.css';          // Docs: https://github.com/danawoodman/react-fontawesome/blob/master/api.md
+import './css/keyrune.min.css';               // Docs: https://andrewgioia.github.io/Keyrune/
+import './css/mana.min.css';                  // Docs: https://andrewgioia.github.io/Mana/
 import './App.scss';
 
 // Local JS files
@@ -118,13 +118,13 @@ export default class App extends Component {
   
       // check valid results, no errors, backup search from local database
 
-      console.log("Stats:");
-      console.log("searchQuery:", searchQuery);
-      console.log("searchCount:", this.state.searchCount);
-      console.log("completedSearches:", this.state.completedSearches);
-      console.log("currentResultCount:", this.state.currentResultCount);
-      console.log("runningResultCount:", this.state.runningResultCount);
-      console.log("morePages:", this.state.morePages);
+      // console.log("Stats:");
+      // console.log("searchQuery:", searchQuery);
+      // console.log("searchCount:", this.state.searchCount);
+      // console.log("completedSearches:", this.state.completedSearches);
+      // console.log("currentResultCount:", this.state.currentResultCount);
+      // console.log("runningResultCount:", this.state.runningResultCount);
+      // console.log("morePages:", this.state.morePages);
     } else {
       setTimeout(() => {
         this.setState({
