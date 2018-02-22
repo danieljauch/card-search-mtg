@@ -1,18 +1,17 @@
-.advanced-search {
+.advanced-search, .layout-select {
 	flex-basis: 10%;
 }
-.menu-toggle-btn {
+.menu-toggle-btn, .layout-select-btn {
 	display: block;
 	margin: 0 auto;
 	font-size: 1.25rem;
 }
-.menu {
+.menu, .layout-select-menu {
 	@include pseudo-list;
 	position: absolute;
 	top: -100vh;
 	right: 1rem;
 	z-index: 10;
-	width: 30rem;
 	max-width: calc(100% - 2rem);
 	max-height: 100vh;
 	overflow: auto;
@@ -31,6 +30,18 @@
 	&.open {
 		opacity: 1;
 		top: 5rem;
+	}
+}
+.menu {
+	width: 30rem;
+}
+.layout-select-menu {
+	width: 20rem;
+	display: grid;
+	font-size: 1.5em;
+	grid: {
+		template-columns: repeat(2, 1fr);
+		gap: .5rem;
 	}
 }
 .menu-item {
@@ -54,5 +65,25 @@
 	}
 	&.search-menu-choices {
 
+	}
+}
+.layout-option {
+	cursor: pointer;
+  transition: {
+    property: color, background;
+    duration: .2s;
+    timing-function: $cubic;
+  }
+	.fa {
+		width: 2rem;
+		text-align: center;
+	}
+	&:hover {
+		color: $black;
+		background: rgba($white, .9);
+		border-radius: .25rem;
+		.fa {
+			color: $green;
+		}
 	}
 }

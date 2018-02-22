@@ -6,7 +6,6 @@
 
 ##Layout:
 
-	- [ ]: Layout selector
 	- [ ]: Layout card text better
 
 ##General:

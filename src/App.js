@@ -20,7 +20,6 @@ export default class App extends Component {
   constructor (props) {
     super(props);
 
-
     this.state = {
       searchResult: [],
       searchCount: 0,
@@ -33,6 +32,7 @@ export default class App extends Component {
       searchBuffer: 10,
       morePages: false,
       menuIsOpen: false,
+      layoutMenuIsOpen: false,
       infoIsOpen: false,
       layout: "list", // "list" | "grid" | "card" | "text"
       searchFieldValue: "",
@@ -154,10 +154,19 @@ export default class App extends Component {
   }
   menuToggle = () => {
     this.setState({
+      layoutMenuIsOpen: false,
       menuIsOpen: !this.state.menuIsOpen
     });
 
     return this.state.menuIsOpen;
+  }
+  layoutToggle = () => {
+    this.setState({
+      menuIsOpen: false,
+      layoutMenuIsOpen: !this.state.layoutMenuIsOpen
+    });
+
+    return this.state.layoutMenuIsOpen;
   }
   infoToggle = () => {
     this.setState({
@@ -181,9 +190,15 @@ export default class App extends Component {
 
     this.search();
   }
+  handleLayoutChange = _layout => {
+    this.setState({
+      layout: _layout
+    });
+  }
 
   render() {
     let menuClass = this.state.menuIsOpen ? "menu open" : "menu";
+    let layoutClass = this.state.layoutMenuIsOpen ? "layout-select-menu open" : "layout-select-menu";
     let footerClass = this.state.infoIsOpen ? "app-footer open" : "app-footer";
     let appMain = this.emptySearch()
       ? <div className="no-search-yet">Type a card name in the search bar above</div>
@@ -212,6 +227,29 @@ export default class App extends Component {
               sets={this.state.sets}
               format={this.state.format} />
           </nav>
+          <div className="layout-select">
+            <button className="btn layout-select-btn" onClick={this.layoutToggle}>
+              <span>Layout</span>
+            </button>
+            <section className={layoutClass}>
+              <div className="layout-option" onClick={() => this.handleLayoutChange("list")}>
+                <FontAwesome name="list" />
+                <span>List</span>
+              </div>
+              <div className="layout-option" onClick={() => this.handleLayoutChange("grid")}>
+                <FontAwesome name="th-large" />
+                <span>Grid</span>
+              </div>
+              <div className="layout-option" onClick={() => this.handleLayoutChange("card")}>
+                <FontAwesome name="th" />
+                <span>Card</span>
+              </div>
+              <div className="layout-option" onClick={() => this.handleLayoutChange("text")}>
+                <FontAwesome name="font" />
+                <span>Text</span>
+              </div>
+            </section>
+          </div>
         </header>
         <main className="app-main">
           {appMain}
