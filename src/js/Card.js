@@ -1,5 +1,5 @@
 // Core Components
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 // Local JS files
 import MTGSymbol from './MTGSymbol';
@@ -26,12 +26,46 @@ export default class Card extends Component {
 
 		return num;
 	}
-	cardText = text => text.split("\n")
+	cardText = text => {
+		let paragraphs = text.split("\n");
+		let currentParagraph;
+		let editedParagraph = [];
+		let output = [];
+		
+		for (let i = 0, l = paragraphs.length; i < l; i++) {
+			if (paragraphs[i].indexOf("{") > -1) {
+				// cost symbol present
+				currentParagraph = paragraphs[i].split("}");
+				for (let j = 0, k = currentParagraph.length; j < k; j++) {
+					if (currentParagraph[j].charAt(0) === "{") {
+						// replace with MTGSymbol
+						editedParagraph.push((
+							<MTGSymbol output={currentParagraph[j].substring(1).toLowerCase()} type="mana" />
+						));
+					} else
+						editedParagraph.push(currentParagraph[j]);
+				}
+				output.push((
+					<Fragment>
+						{editedParagraph.map(index => {
+							<span key={index}>{editedParagraph[index]}</span>
+						})}
+					</Fragment>
+				));
+			} else {
+				output.push((
+					<Fragment>{paragraphs[i]}</Fragment>
+				));
+			}
+		}
+
+		return output;
+	}
+	flavorText = text => text.split("\n")
 
 	render () {
 		let { card } = this.props;
 		let colorIdentity;
-		
 
 		if (typeof(card.colorIdentity) !== "undefined") {
 			if (card.colorIdentity.length === 1)
@@ -43,10 +77,14 @@ export default class Card extends Component {
 		
 		return (
 			<figure className={`card-wrap color-identity-${colorIdentity}`}>
+				{/* Image */}
 				<div className="card-img-wrap">
 					<img className="card-img" src={card.imageUrl} alt={card.name} />
 				</div>
+
+				{/* Information */}
 				<figcaption className="card-info">
+					{/* Header: name, type, mana cost */}
 					<header className="card-header-row">
 						<h3>{card.name}</h3>
 						<h4>{card.type}</h4>
@@ -60,12 +98,25 @@ export default class Card extends Component {
 							</span>
 						}
 					</header>
+
+					{/* Card text */}
 					<div className="card-info-row">
-						<p className="card-info-text">{card.text}</p>
+						{this.cardText(card.text).map(index => (
+							<p className="card-info-text" key={index}>{index}</p>
+						))}
 					</div>
-					<div className="card-info-row">
-					</div>
-					<footer className="card-info-row">
+
+					{/* Flavor text */}
+					{typeof(card.flavor) !== "undefined" &&
+						<div className="card-info-row">
+							{this.flavorText(card.flavor).map(index => (
+								<p className="card-info-flavor-text" key={index}>{this.flavorText(card.flavor)[index]}</p>
+							))}
+						</div>
+					}
+
+					{/* Footer: power / toughness, set, collector number */}
+					<footer className="card-footer-row">
 						{typeof(card.power) !== "undefined" && typeof(card.toughness) !== "undefined" &&
 							<p className="card-info-power-toughness">{`[${card.power}/${card.toughness}]`}</p>
 						}

@@ -61,15 +61,14 @@
 .card-info {
 	flex-basis: 75%;
 	padding: 0 1rem;
-	footer {
-		padding-top: .5rem;
-		border-top: .25rem solid $blue;
-		margin-top: .5rem;
-	}
 }
 .card-header-row {
 	margin-bottom: 1.5rem;
-	// color: $white;
+}
+.card-footer-row {
+	padding-top: .5rem;
+	border-top: .25rem solid $blue;
+	margin-top: .5rem;
 }
 .card-info-mana-cost {
 	float: right;
@@ -80,6 +79,12 @@
 }
 .card-info-text {
 	font-size: .8em;
+	margin: 0 0 .5rem;
+}
+.card-info-flavor-text {
+	font-size: .8em;
+	margin: 0 0 .5rem;
+	font-style: italic;
 }
 .card-info-set-number {
 	font-weight: 400;
