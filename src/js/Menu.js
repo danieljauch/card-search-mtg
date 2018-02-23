@@ -8,6 +8,9 @@ export default class Menu extends Component {
 		this.handleChange = this.handleChange.bind(this);
 	}
 
+	clearFilter = e => {
+		
+	}
 	handleChange = e => {
 		let targetID = e.target.id.split("Setting_");
 		let isChecked = e.target.checked;
@@ -50,32 +53,35 @@ export default class Menu extends Component {
 					menu } = this.props;
 
 		return (
-			<ul className={menuClass}>
-				{Object.keys(menu).map(category => (
-					<li className="menu-item" key={category}>
-						<h3 className="menu-item-title">{category}</h3>
-						{menu[category].type === "Checkboxes" &&
-							<section className="menu-choice-wrap checkbox-menu-choices">
-								{menu[category].list.map(cat => (
-									<div className="menu-choice" key={cat}>
-										<input type="checkbox"
-											id={`${this.camelCase(category)}Setting_${cat}`}
-											onChange={this.handleChange} />
-										<label htmlFor={`${this.camelCase(category)}Setting_${cat}`}>{cat}</label>
+			<div className={menuClass}>
+				<ul className="menu-list">
+					{Object.keys(menu).map(category => (
+						<li className="menu-item" key={category}>
+							<h3 className="menu-item-title">{category}</h3>
+							{menu[category].type === "Checkboxes" &&
+								<section className="menu-choice-wrap checkbox-menu-choices">
+									{menu[category].list.map(cat => (
+										<div className="menu-choice" key={cat}>
+											<input type="checkbox"
+												id={`${this.camelCase(category)}Setting_${cat}`}
+												onChange={this.handleChange} />
+											<label htmlFor={`${this.camelCase(category)}Setting_${cat}`}>{cat}</label>
+										</div>
+									))}
+								</section>
+							}
+							{menu[category].type === "Search" &&
+								<section className="menu-choice-wrap search-menu-choices">
+									<div className="menu-choice">
+										<input type="search" id={`${this.camelCase(category)}Setting`} />
 									</div>
-								))}
-							</section>
-						}
-						{menu[category].type === "Search" &&
-							<section className="menu-choice-wrap search-menu-choices">
-								<div className="menu-choice">
-									<input type="search" id={`${this.camelCase(category)}Setting`} />
-								</div>
-							</section>
-						}
-					</li>
-				))}
-			</ul>
+								</section>
+							}
+						</li>
+					))}
+				</ul>
+				<button className="btn clear-advanced-filter-btn" onClick={this.clearFilter}>Clear</button>
+			</div>
 		);
 	}
 }

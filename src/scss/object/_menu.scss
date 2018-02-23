@@ -7,7 +7,6 @@
 	font-size: 1.25rem;
 }
 .menu, .layout-select-menu {
-	@include pseudo-list;
 	position: absolute;
 	top: -100vh;
 	right: 1rem;
@@ -34,21 +33,27 @@
 }
 .menu {
 	width: 30rem;
+	max-height: calc(100vh - 8rem);
+}
+.menu-list {
+	@include pseudo-list;
 }
 .layout-select-menu {
 	width: 20rem;
-	display: grid;
 	font-size: 1.5em;
+	display: grid;
 	grid: {
-		template-columns: repeat(2, 1fr);
+		template: {
+			columns: repeat(2, 1fr);
+			rows: auto;
+		}
 		gap: .5rem;
 	}
 }
 .menu-item {
-	padding: .5rem 0;
-	&:not(:last-of-type) {
-		border-bottom: .25rem solid rgba($white, .5);
-	}
+	padding: 0 0 .5rem;
+	border-bottom: .25rem solid rgba($white, .5);
+	margin-bottom: .5rem;
 }
 .menu-item-title {
 	margin-bottom: .25rem;
@@ -56,11 +61,9 @@
 .menu-choice-wrap {
 	&.checkbox-menu-choices {
 		display: grid;
-		grid: {
-			template: {
-				columns: repeat(2, 1fr);
-				rows: auto;
-			}
+		grid-template: {
+			columns: repeat(2, 1fr);
+			rows: auto;
 		}
 	}
 	&.search-menu-choices {
@@ -69,6 +72,7 @@
 }
 .layout-option {
 	cursor: pointer;
+	border-radius: .25rem;
   transition: {
     property: color, background;
     duration: .2s;
@@ -77,13 +81,26 @@
 	.fa {
 		width: 2rem;
 		text-align: center;
+		transition: {
+			property: color;
+			duration: .2s;
+			timing-function: $cubic;
+		}
 	}
 	&:hover {
 		color: $black;
 		background: rgba($white, .9);
-		border-radius: .25rem;
 		.fa {
 			color: $green;
 		}
+	}
+}
+@include breakpoint($tablet) {
+	.layout-select-menu {
+		grid-template-columns: repeat(4, 1fr) !important;
+		width: 30rem !important;
+	}
+	.checkbox-menu-choices {
+		grid-template-columns: repeat(3, 1fr) !important;
 	}
 }

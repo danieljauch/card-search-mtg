@@ -20,7 +20,6 @@
 	- [ ]: Load transition
 	- [ ]: Clear advanced filter
 	- [ ]: Pages
-	- [ ]: Buffer limit 
+	- [ ]: Buffer limit
 	- [ ]: CMC setting
-	- [ ]: Rarity setting
 	- [ ]: Stat modal

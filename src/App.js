@@ -34,7 +34,7 @@ export default class App extends Component {
       menuIsOpen: false,
       layoutMenuIsOpen: false,
       infoIsOpen: false,
-      layout: "list", // "list" | "grid" | "card" | "text"
+      layout: "list",
       searchFieldValue: "",
       colors: [],
       cardTypes: [],
@@ -58,6 +58,10 @@ export default class App extends Component {
       "Format": {
         type: "Checkboxes",
         list: [ "Standard", "Modern", "Vintage", "Legacy", "Pauper", "Peasant", "Commander", "Conspiracy", "Silver-border" ]
+      },
+      "Rarity": {
+        type: "Checkboxes",
+        list: [ "Common", "Uncommon", "Rare", "Mythic Rare" ]
       }
     };
 

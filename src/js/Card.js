@@ -47,9 +47,9 @@ export default class Card extends Component {
 				}
 				output.push((
 					<Fragment>
-						{editedParagraph.map(index => {
+						{editedParagraph.map(index => (
 							<span key={index}>{editedParagraph[index]}</span>
-						})}
+						))}
 					</Fragment>
 				));
 			} else {
@@ -102,7 +102,7 @@ export default class Card extends Component {
 					{/* Card text */}
 					<div className="card-info-row">
 						{this.cardText(card.text).map(index => (
-							<p className="card-info-text" key={index}>{index}</p>
+							<p className="card-info-text" key={index}>{this.cardText(card.text)[index]}</p>
 						))}
 					</div>
 
