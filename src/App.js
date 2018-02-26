@@ -181,7 +181,7 @@ export default class App extends Component {
   }
   handleSearchValueChange = searchValue => {
     this.setState({
-      searchFieldValue: encodeURIComponent(searchValue)
+      searchFieldValue: searchValue
     });
     this.search();
 

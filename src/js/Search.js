@@ -18,7 +18,7 @@ export default class Search extends Component {
 			value: e.target.value
 		});
 
-		this.props.handleChange(e.target.value);
+		this.props.handleChange(encodeURIComponent(e.target.value));
 
 		return e.target.value;
 	}

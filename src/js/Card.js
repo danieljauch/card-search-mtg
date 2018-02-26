@@ -26,7 +26,7 @@ export default class Card extends Component {
 
 		return num;
 	}
-	cardText = text => {
+	cardText = (name, text) => {
 		let paragraphs = text.split("\n");
 		let currentParagraph;
 		let editedParagraph = [];
@@ -47,8 +47,8 @@ export default class Card extends Component {
 				}
 				output.push((
 					<Fragment>
-						{editedParagraph.map(index => (
-							<span key={index}>{editedParagraph[index]}</span>
+						{editedParagraph.map((currentParagraph, index) => (
+							<span key={`paragraph_${name}_${index}`}>{currentParagraph}</span>
 						))}
 					</Fragment>
 				));
@@ -91,26 +91,26 @@ export default class Card extends Component {
 						{typeof(card.manaCost) !== "undefined" &&
 							<span className="card-info-mana-cost">
 								{this.cardManaCost(card.manaCost).map((manaShortcode, index) => (
-									<MTGSymbol output={manaShortcode}
-										type="mana"
-										key={index} />
-								))}
+										<MTGSymbol output={manaShortcode}
+											type="mana"
+											key={`symbol_${card.name}_${index}`} />
+									))}
 							</span>
 						}
 					</header>
 
 					{/* Card text */}
 					<div className="card-info-row">
-						{this.cardText(card.text).map(index => (
-							<p className="card-info-text" key={index}>{this.cardText(card.text)[index]}</p>
+						{this.cardText(card.name, card.text).map((currentText, index) => (
+							<p className="card-info-text" key={`cardText_${card.name}_${index}`}>{currentText}</p>
 						))}
 					</div>
 
 					{/* Flavor text */}
 					{typeof(card.flavor) !== "undefined" &&
 						<div className="card-info-row">
-							{this.flavorText(card.flavor).map(index => (
-								<p className="card-info-flavor-text" key={index}>{this.flavorText(card.flavor)[index]}</p>
+							{this.flavorText(card.flavor).map((currentText, index) => (
+								<p className="card-info-flavor-text" key={`flavorText_${card.name}_${index}`}>{currentText}</p>
 							))}
 						</div>
 					}
