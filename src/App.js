@@ -14,7 +14,7 @@ import Search from './js/Search';
 import Menu from './js/Menu';
 import Card from './js/Card';
 
-const TICKRATE = 100;
+const TICKRATE = 250;
 
 export default class App extends Component {
   constructor (props) {

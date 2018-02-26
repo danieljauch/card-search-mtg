@@ -1,8 +1,8 @@
 #To Do list:
 
-##MTG symbols:
+##Issues:
 
-	- [ ]: Replace cost symbols in card text
+	- [ ]: Space in search causing issues
 
 ##Layout:
 
@@ -13,13 +13,12 @@
 	- [ ]: Break out component files
 	- [ ]: Clean up all renders
 	- [ ]: Handle no online connection with local DB
+	- [ ]: Code comments
 
 ##Unfinished features:
 
-	- [ ]: Set and format settings
+	- [ ]: Set, format, CMC, and legality settings
 	- [ ]: Load transition
 	- [ ]: Clear advanced filter
 	- [ ]: Pages
-	- [ ]: Buffer limit
-	- [ ]: CMC setting
-	- [ ]: Stat modal
+	- [ ]: Stat modal (?)

@@ -35,16 +35,24 @@ export default class Card extends Component {
 		for (let i = 0, l = paragraphs.length; i < l; i++) {
 			if (paragraphs[i].indexOf("{") > -1) {
 				// cost symbol present
+				editedParagraph = [];
 				currentParagraph = paragraphs[i].split("}");
+				
+				// find the symbol, convert it
 				for (let j = 0, k = currentParagraph.length; j < k; j++) {
 					if (currentParagraph[j].charAt(0) === "{") {
-						// replace with MTGSymbol
 						editedParagraph.push((
 							<MTGSymbol output={currentParagraph[j].substring(1).toLowerCase()} type="mana" />
+						));
+					} else if (currentParagraph[j].substring(0, 3) === ", {") {
+						editedParagraph.push((
+							<MTGSymbol output={currentParagraph[j].substring(3).toLowerCase()} type="mana" />
 						));
 					} else
 						editedParagraph.push(currentParagraph[j]);
 				}
+
+				// add the finished paragraph in JSX, including the symbols
 				output.push((
 					<Fragment>
 						{editedParagraph.map((currentParagraph, index) => (
@@ -61,7 +69,6 @@ export default class Card extends Component {
 
 		return output;
 	}
-	flavorText = text => text.split("\n")
 
 	render () {
 		let { card } = this.props;
@@ -109,7 +116,7 @@ export default class Card extends Component {
 					{/* Flavor text */}
 					{typeof(card.flavor) !== "undefined" &&
 						<div className="card-info-row">
-							{this.flavorText(card.flavor).map((currentText, index) => (
+							{card.flavor.split("\n").map((currentText, index) => (
 								<p className="card-info-flavor-text" key={`flavorText_${card.name}_${index}`}>{currentText}</p>
 							))}
 						</div>
