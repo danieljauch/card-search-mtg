@@ -31,11 +31,10 @@ input[type="file"] {
 input[type="search"] {
 
 }
-input[type="checkbox"] {
+input[type="checkbox"], input[type="radio"] {
   cursor: pointer;
   width: 1rem !important;
   height: 1rem;
-  // margin: .5rem 0 0 !important;
   &:hover, &:active {
     background: $blue;
   }

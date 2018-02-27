@@ -1,7 +1,7 @@
 // Core Components
-import React, { Component } from 'react';     // Docs: https://reactjs.org/docs/
-import FontAwesome from 'react-fontawesome';  // Docs: https://github.com/danawoodman/react-fontawesome
-import { card } from 'mtgsdk';                // Docs: https://docs.magicthegathering.io/
+import React, { Component } from 'react';             // Docs: https://reactjs.org/docs/
+import FontAwesome          from 'react-fontawesome'; // Docs: https://github.com/danawoodman/react-fontawesome
+import { card }             from 'mtgsdk';            // Docs: https://docs.magicthegathering.io/
 
 // Styles
 import './css/font-awesome.min.css'; // Docs: https://fontawesome.com/get-started/web-fonts-with-css
@@ -11,7 +11,7 @@ import './App.scss';
 
 // Local JS files
 import Header from './js/Header';
-import Main from './js/Main';
+import Main   from './js/Main';
 import Footer from './js/Footer';
 
 const TICKRATE = 250;
@@ -32,14 +32,13 @@ export default class App extends Component {
       searchBuffer: 10,
       morePages: false,
       menuIsOpen: false,
-      layoutMenuIsOpen: false,
       infoIsOpen: false,
-      layout: "list",
       searchFieldValue: "",
       colors: [],
       cardTypes: [],
       sets: [],
-      format: []
+      format: [],
+      layout: "list"
     };
 
     this.title = "MTG Card Search";
@@ -68,6 +67,12 @@ export default class App extends Component {
         type: "Checkboxes",
         list: [ "Common", "Uncommon", "Rare", "Mythic Rare" ],
         current: ""
+      },
+      "Layout": {
+        type: "Layout",
+        list: [ "List", "Grid", "Card", "Text" ],
+        icons: [ "list", "th-large", "th", "font" ],
+        current: ""
       }
     };
 
@@ -85,20 +90,12 @@ export default class App extends Component {
       searchQuery = {
         name: encodeURIComponent(this.state.searchFieldValue),
         pageSize: encodeURIComponent(this.state.searchBuffer),
-        page: encodeURIComponent(this.state.resultsPage)
+        page: encodeURIComponent(this.state.resultsPage),
+        colors: encodeURIComponent(this.state.colors),
+        types: encodeURIComponent(this.state.cardTypes),
+        set: encodeURIComponent(this.state.sets),
+        legalities: encodeURIComponent(this.state.format)
       };
-
-      if (this.state.colors !== [])
-        searchQuery["colors"] = encodeURIComponent(this.state.colors);
-        
-      if (this.state.cardTypes !== [])
-        searchQuery["types"] = encodeURIComponent(this.state.cardTypes);
-        
-      if (this.state.sets !== [])
-        searchQuery["set"] = encodeURIComponent(this.state.sets);
-        
-      if (this.state.format !== [])
-        searchQuery["legalities"] = encodeURIComponent(this.state.format);
     } else
       searchQuery = this.state.queuedSearch;
 
@@ -135,25 +132,25 @@ export default class App extends Component {
       // console.log("currentResultCount:", this.state.currentResultCount);
       // console.log("runningResultCount:", this.state.runningResultCount);
       // console.log("morePages:", this.state.morePages);
-    } else {
-      setTimeout(() => {
-        this.setState({
-          queuedSearch: {
-            name: encodeURIComponent(this.state.searchFieldValue),
-            colors: encodeURIComponent(this.state.colors),
-            types: encodeURIComponent(this.state.cardTypes),
-            set: encodeURIComponent(this.state.sets),
-            legalities: encodeURIComponent(this.state.format),
-            pageSize: encodeURIComponent(this.state.searchBuffer),
-            page: encodeURIComponent(this.state.resultsPage)
-          }
-        });
 
-        this.search();
-      }, TICKRATE);
+      return this.state.searchResult;
+    } else {
+      this.setState({
+        queuedSearch: {
+          name: encodeURIComponent(this.state.searchFieldValue),
+          pageSize: encodeURIComponent(this.state.searchBuffer),
+          page: encodeURIComponent(this.state.resultsPage),
+          colors: encodeURIComponent(this.state.colors),
+          types: encodeURIComponent(this.state.cardTypes),
+          set: encodeURIComponent(this.state.sets),
+          legalities: encodeURIComponent(this.state.format)
+        }
+      });
+
+      setTimeout(this.search, TICKRATE);
+
+      return this.state.queuedSearch;
     }
-      
-    return this.state.searchResult;
   }
   emptySearch = () => {
     return this.state.searchFieldValue === ""
@@ -164,19 +161,10 @@ export default class App extends Component {
   }
   menuToggle = () => {
     this.setState({
-      layoutMenuIsOpen: false,
       menuIsOpen: !this.state.menuIsOpen
     });
 
     return this.state.menuIsOpen;
-  }
-  layoutToggle = () => {
-    this.setState({
-      menuIsOpen: false,
-      layoutMenuIsOpen: !this.state.layoutMenuIsOpen
-    });
-
-    return this.state.layoutMenuIsOpen;
   }
   infoToggle = () => {
     this.setState({
@@ -207,10 +195,6 @@ export default class App extends Component {
   }
 
   render() {
-    let menuClass = this.state.menuIsOpen ? "menu open" : "menu";
-    let layoutClass = this.state.layoutMenuIsOpen ? "layout-select-menu open" : "layout-select-menu";
-    let footerClass = this.state.infoIsOpen ? "app-footer open" : "app-footer";
-
     return (
       <div className="app">
         <Header title={this.title}
@@ -218,26 +202,24 @@ export default class App extends Component {
           // Search field
           handleSearchValueChange={this.handleSearchValueChange}
 
-          // Advanced menu
+					// Menu state
           menu={this.menu}
           menuIsOpen={this.state.menuIsOpen}
           menuToggle={this.menuToggle}
           handleAdvancedSearchChange={this.handleAdvancedSearchChange}
+
+					// Menu options
           colors={this.state.colors}
           cardTypes={this.state.cardTypes}
           sets={this.state.sets}
           format={this.state.format}
-
-          // Layout menu
-          layoutIsOpen={this.state.layoutIsOpen}
-          layoutToggle={this.layoutToggle}
-          handleLayoutChange={this.handleLayoutChange} />
+					layout={this.state.layout} />
         
         <Main emptySearch={this.emptySearch()}
 					layout={this.state.layout}
 					searchResult={this.state.searchResult} />
 
-        <Footer footerClass={footerClass}
+        <Footer footerIsOpen={this.state.infoIsOpen}
 					infoToggle={this.infoToggle} />
       </div>
     );

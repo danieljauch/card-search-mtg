@@ -1,5 +1,6 @@
 // Core Components
-import React, { Component } from 'react';
+import React, { Component }	from 'react';
+import FontAwesome					from 'react-fontawesome';
 
 export default class Menu extends Component {
 	constructor (props) {
@@ -8,7 +9,7 @@ export default class Menu extends Component {
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	clearFilter = e => {
+	resetSettings = e => {
 		
 	}
 	handleChange = e => {
@@ -50,38 +51,60 @@ export default class Menu extends Component {
 
 	render () {
 		let { menuClass,
-					menu } = this.props;
+					menu,
+					menuToggle } = this.props;
 
 		return (
-			<div className={menuClass}>
-				<ul className="menu-list">
-					{Object.keys(menu).map(category => (
-						<li className="menu-item" key={category}>
-							<h3 className="menu-item-title">{category}</h3>
-							{menu[category].type === "Checkboxes" &&
-								<section className="menu-choice-wrap checkbox-menu-choices">
-									{menu[category].list.map(cat => (
-										<div className="menu-choice" key={cat}>
-											<input type="checkbox"
-												id={`${this.camelCase(category)}Setting_${cat}`}
-												onChange={this.handleChange} />
-											<label htmlFor={`${this.camelCase(category)}Setting_${cat}`}>{cat}</label>
+			<nav className="menu-wrap">
+				<button className="btn menu-toggle-btn" onClick={menuToggle}>
+					<span className="menu-toggle-btn-text">Menu </span>
+					<FontAwesome name="cog" className="menu-toggle-btn-icon" />
+				</button>
+				<div className={menuClass}>
+					<ul className="menu-list">
+						{Object.keys(menu).map(category => (
+							<li className="menu-item" key={category}>
+								<h3 className="menu-item-title">{category}</h3>
+								{menu[category].type === "Checkboxes" &&
+									<section className="menu-choice-wrap checkbox-menu-choices">
+										{menu[category].list.map(cat => (
+											<div className="menu-choice" key={cat}>
+												<input type="checkbox"
+													id={`${this.camelCase(category)}Setting_${cat}`}
+													onChange={this.handleChange} />
+												<label htmlFor={`${this.camelCase(category)}Setting_${cat}`}>{cat}</label>
+											</div>
+										))}
+									</section>
+								}
+								{menu[category].type === "Search" &&
+									<section className="menu-choice-wrap search-menu-choices">
+										<div className="menu-choice">
+											<input type="search" id={`${this.camelCase(category)}Setting`} />
 										</div>
-									))}
-								</section>
-							}
-							{menu[category].type === "Search" &&
-								<section className="menu-choice-wrap search-menu-choices">
-									<div className="menu-choice">
-										<input type="search" id={`${this.camelCase(category)}Setting`} />
-									</div>
-								</section>
-							}
-						</li>
-					))}
-				</ul>
-				<button className="btn clear-advanced-filter-btn" onClick={this.clearFilter}>Clear</button>
-			</div>
+									</section>
+								}
+								{menu[category].type === "Layout" &&
+									<section className="menu-choice-wrap checkbox-menu-choices">
+										{menu[category].list.map(cat => (
+											<div className="menu-choice layout-option" key={cat}>
+												<input type="radio"
+													id={`${this.camelCase(category)}Setting_${cat}`}
+													onChange={() => this.handleLayoutChange(cat.toString.toLowerCase())} />
+												<label htmlFor={`${this.camelCase(category)}Setting_${cat}`}>
+													<FontAwesome name={menu[category].icons[cat]} />
+													<span> {cat}</span>
+												</label>
+											</div>
+										))}
+									</section>
+								}
+							</li>
+						))}
+					</ul>
+					<button className="btn clear-advanced-filter-btn" onClick={this.resetSettings}>Reset</button>
+				</div>
+			</nav>
 		);
 	}
 }

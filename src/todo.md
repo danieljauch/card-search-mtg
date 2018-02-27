@@ -18,5 +18,5 @@
 	- [ ]: Reset settings button
 	- [ ]: Pages
 	- [ ]: Stat modal (?)
-	- [ ]: Combine menus
+	- [ ]: Menu functions
 	- [ ]: FontAwesome5

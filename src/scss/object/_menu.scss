@@ -1,26 +1,28 @@
-.advanced-search, .layout-select {
-	flex-basis: 10%;
+.menu-wrap {
+	flex-basis: 3rem;
 }
-.menu-toggle-btn, .layout-select-btn {
+.menu-toggle-btn {
 	display: block;
 	margin: 0 auto;
 	font-size: 1.25rem;
+	.menu-toggle-btn-text {
+		display: none;
+	}
 }
-.menu, .layout-select-menu {
+.menu {
 	position: absolute;
 	top: -100vh;
-	right: 1rem;
+	right: 0;
 	z-index: 10;
-	max-width: calc(100% - 2rem);
-	max-height: 100vh;
+	width: 100%;
+	max-height: calc(100vh - 3.5rem);
 	overflow: auto;
 	opacity: 0;
-	color: rgba($white, .9);
-	background: linear-gradient(to bottom right, rgba($black, .9), rgba(lighten($black, 10%), .9));
+	color: rgba($white, .95);
+	background: linear-gradient(to bottom right, rgba($black, .95), rgba(lighten($black, 10%), .95));
 	font-size: .8rem;
 	padding: 1rem;
-	border-radius: 1rem;
-	box-shadow: .25rem .5rem 1rem rgba($black, .5);
+	box-shadow: 0 0 1rem rgba($black, .5);
   transition: {
     property: opacity;
     duration: .2s;
@@ -28,27 +30,11 @@
   }
 	&.open {
 		opacity: 1;
-		top: 5rem;
+		top: 3.5rem;
 	}
-}
-.menu {
-	width: 30rem;
-	max-height: calc(100vh - 8rem);
 }
 .menu-list {
 	@include pseudo-list;
-}
-.layout-select-menu {
-	width: 20rem;
-	font-size: 1.5em;
-	display: grid;
-	grid: {
-		template: {
-			columns: repeat(2, 1fr);
-			rows: auto;
-		}
-		gap: .5rem;
-	}
 }
 .menu-item {
 	padding: 0 0 .5rem;
@@ -70,37 +56,29 @@
 
 	}
 }
-.layout-option {
-	cursor: pointer;
-	border-radius: .25rem;
-  transition: {
-    property: color, background;
-    duration: .2s;
-    timing-function: $cubic;
-  }
-	.fa {
-		width: 2rem;
-		text-align: center;
-		transition: {
-			property: color;
-			duration: .2s;
-			timing-function: $cubic;
-		}
-	}
-	&:hover {
-		color: $black;
-		background: rgba($white, .9);
-		.fa {
-			color: $green;
-		}
+@include breakpoint($phone) {
+	.checkbox-menu-choices {
+		grid-template-columns: repeat(3, 1fr) !important;
 	}
 }
 @include breakpoint($tablet) {
-	.layout-select-menu {
-		grid-template-columns: repeat(4, 1fr) !important;
-		width: 30rem !important;
+	.menu-wrap {
+		flex-basis: 7rem;
+	}
+	.menu-toggle-btn .menu-toggle-btn-text {
+		display: inline;
+	}
+	.menu-list {
+		display: block;
+		margin: 0 auto;
+		max-width: 70em;
 	}
 	.checkbox-menu-choices {
-		grid-template-columns: repeat(3, 1fr) !important;
+		grid-template-columns: repeat(4, 1fr) !important;
+	}
+}
+@include breakpoint($desktop) {
+	.checkbox-menu-choices {
+		grid-template-columns: repeat(5, 1fr) !important;
 	}
 }

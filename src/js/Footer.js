@@ -1,11 +1,13 @@
 // Core Components
-import React, { Component } from 'react';
-import FontAwesome from 'react-fontawesome';
+import React, { Component }	from 'react';
+import FontAwesome					from 'react-fontawesome';
 
 export default class Footer extends Component {
 	render () {
-		let { footerClass,
+		let { footerIsOpen,
 					infoToggle } = this.props;
+		
+		let footerClass = footerIsOpen ? "app-footer open" : "app-footer";
 		
 		return (
 			<footer className={footerClass}>
