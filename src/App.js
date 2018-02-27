@@ -1,7 +1,6 @@
 // Core Components
-import React, { Component } from 'react';             // Docs: https://reactjs.org/docs/
-import FontAwesome          from 'react-fontawesome'; // Docs: https://github.com/danawoodman/react-fontawesome
-import { card }             from 'mtgsdk';            // Docs: https://docs.magicthegathering.io/
+import React, { Component } from 'react';   // Docs: https://reactjs.org/docs/
+import { card }             from 'mtgsdk';  // Docs: https://docs.magicthegathering.io/
 
 // Styles
 import './css/font-awesome.min.css'; // Docs: https://fontawesome.com/get-started/web-fonts-with-css
@@ -31,6 +30,7 @@ export default class App extends Component {
       resultsPage: 1,
       searchBuffer: 10,
       morePages: false,
+      displayReady: false,
       menuIsOpen: false,
       infoIsOpen: false,
       searchFieldValue: "",
@@ -82,7 +82,8 @@ export default class App extends Component {
 
   search = () => {
     this.setState({
-      searchCount: this.state.searchCount + 1
+      searchCount: this.state.searchCount + 1,
+      displayReady: false
     });
     
     let searchQuery;
@@ -121,6 +122,12 @@ export default class App extends Component {
             runningResultCount: this.state.runningResultCount + result.length,
             morePages: this.state.currentResultCount > this.state.pageSize
           });
+
+          setTimeout(() => {
+            this.setState({
+              displayReady: true
+            });
+          }, TICKRATE)
         });
   
       // check valid results, no errors, backup search from local database
@@ -153,11 +160,12 @@ export default class App extends Component {
     }
   }
   emptySearch = () => {
-    return this.state.searchFieldValue === ""
-      && this.state.colors === []
-      && this.state.cardTypes === []
-      && this.state.sets === []
-      && this.state.format === [];
+    return this.state.searchResult.length == 0
+      || (this.state.searchFieldValue === ""
+        && this.state.colors === []
+        && this.state.cardTypes === []
+        && this.state.sets === []
+        && this.state.format === []);
   }
   menuToggle = () => {
     this.setState({
@@ -217,7 +225,8 @@ export default class App extends Component {
         
         <Main emptySearch={this.emptySearch()}
 					layout={this.state.layout}
-					searchResult={this.state.searchResult} />
+          searchResult={this.state.searchResult}
+          displayReady={this.state.displayReady} />
 
         <Footer footerIsOpen={this.state.infoIsOpen}
 					infoToggle={this.infoToggle} />

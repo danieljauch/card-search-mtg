@@ -92,7 +92,7 @@ export default class Menu extends Component {
 													id={`${this.camelCase(category)}Setting_${cat}`}
 													onChange={() => this.handleLayoutChange(cat.toString.toLowerCase())} />
 												<label htmlFor={`${this.camelCase(category)}Setting_${cat}`}>
-													<FontAwesome name={menu[category].icons[cat]} />
+													<FontAwesome name={cat} />
 													<span> {cat}</span>
 												</label>
 											</div>

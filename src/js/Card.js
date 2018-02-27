@@ -71,8 +71,10 @@ export default class Card extends Component {
 	}
 
 	render () {
-		let { card } = this.props;
+		let { card,
+					displayReady } = this.props;
 		let colorIdentity;
+		let cardClass = "card-wrap";
 
 		if (typeof(card.colorIdentity) !== "undefined") {
 			if (card.colorIdentity.length === 1)
@@ -82,8 +84,13 @@ export default class Card extends Component {
 		} else
 			colorIdentity = "C";
 		
+		cardClass += ` color-identity-${colorIdentity}`;
+
+		if (displayReady)
+			cardClass += " display";
+		
 		return (
-			<figure className={`card-wrap color-identity-${colorIdentity}`}>
+			<figure className={cardClass}>
 				{/* Image */}
 				<div className="card-img-wrap">
 					<img className="card-img" src={card.imageUrl} alt={card.name} />

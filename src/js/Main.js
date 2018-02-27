@@ -8,7 +8,8 @@ export default class Main extends Component {
 	render () {
 		let { emptySearch,
 					layout,
-					searchResult } = this.props;
+					searchResult,
+					displayReady } = this.props;
 		
 		return (
 			<main className="app-main">
@@ -19,7 +20,8 @@ export default class Main extends Component {
 					<section className={`search-result-wrap ${layout}-layout`}>
 						{searchResult.map(card => (
 							<Card key={`card-${card.id}`}
-								card={card} />
+								card={card}
+								displayReady={displayReady} />
 						))}
 					</section>
 				}

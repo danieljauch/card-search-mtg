@@ -3,18 +3,17 @@
 ##Issues:
 
 	- [ ]: Space in search causing issues
+	- [ ]: Double mana symbols in card text not at the start
+	- [ ]: Search queue making the card display animation repeat
 
 ##General:
 
-	- [ ]: Break out component files
-	- [ ]: Clean up all renders
 	- [ ]: Handle no online connection with local DB
 	- [ ]: Code comments
 
 ##Unfinished features:
 
 	- [ ]: Set, format, CMC, and legality settings
-	- [ ]: Load transition
 	- [ ]: Reset settings button
 	- [ ]: Pages
 	- [ ]: Stat modal (?)

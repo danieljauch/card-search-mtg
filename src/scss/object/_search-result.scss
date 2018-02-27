@@ -2,6 +2,11 @@
 	margin: 0 auto;
 	width: 100%;
 	max-width: 100em;
+	@for $i from 0 to $page-size-max {
+		.card-wrap:nth-of-type(#{$i}) {
+			transition-delay: $i * .1s;
+		}
+	}
 	&.list-layout {
 		display: flex;
 		flex-direction: column;
