@@ -10,8 +10,10 @@ import './css/mana.min.css';                  // Docs: https://andrewgioia.githu
 import './App.scss';
 
 // Local JS files
-import Search from './js/Search';
-import Menu from './js/Menu';
+import Header from './js/Header';
+import Main from './js/Main';
+import Footer from './js/Footer';
+
 import Card from './js/Card';
 
 const TICKRATE = 250;
@@ -42,6 +44,7 @@ export default class App extends Component {
       format: []
     };
 
+    this.title = "MTG Card Search";
     this.menu = {
       "Colors": {
         type: "Checkboxes",
@@ -204,68 +207,35 @@ export default class App extends Component {
     let menuClass = this.state.menuIsOpen ? "menu open" : "menu";
     let layoutClass = this.state.layoutMenuIsOpen ? "layout-select-menu open" : "layout-select-menu";
     let footerClass = this.state.infoIsOpen ? "app-footer open" : "app-footer";
-    let appMain = this.emptySearch()
-      ? <div className="no-search-yet">Type a card name in the search bar above</div>
-      : <section className={`search-result-wrap ${this.state.layout}-layout`}>
-          {this.state.searchResult.map(card => (
-            <Card key={`card-${card.id}`}
-              card={card} />
-          ))}
-        </section>;
 
     return (
       <div className="app">
-        <header className="app-header">
-          <h1 className="header-title">MTG Card Search</h1>
-          <Search handleChange={this.handleSearchValueChange} />
-          <nav className="advanced-search">
-            <button className="btn menu-toggle-btn" onClick={this.menuToggle}>
-              <span>Advanced</span>
-              <FontAwesome name="menu" />
-            </button>
-            <Menu menuClass={menuClass}
-              menu={this.menu}
-              handleChange={this.handleAdvancedSearchChange}
-              colors={this.state.colors}
-              cardTypes={this.state.cardTypes}
-              sets={this.state.sets}
-              format={this.state.format} />
-          </nav>
-          <div className="layout-select">
-            <button className="btn layout-select-btn" onClick={this.layoutToggle}>
-              <span>Layout</span>
-            </button>
-            <section className={layoutClass}>
-              <div className="layout-option" onClick={() => this.handleLayoutChange("list")}>
-                <FontAwesome name="list" />
-                <span>List</span>
-              </div>
-              <div className="layout-option" onClick={() => this.handleLayoutChange("grid")}>
-                <FontAwesome name="th-large" />
-                <span>Grid</span>
-              </div>
-              <div className="layout-option" onClick={() => this.handleLayoutChange("card")}>
-                <FontAwesome name="th" />
-                <span>Card</span>
-              </div>
-              <div className="layout-option" onClick={() => this.handleLayoutChange("text")}>
-                <FontAwesome name="font" />
-                <span>Text</span>
-              </div>
-            </section>
-          </div>
-        </header>
-        <main className="app-main">
-          {appMain}
-        </main>
-        <footer className={footerClass}>
-          <button className="btn info-btn circle-btn" onClick={this.infoToggle}>
-            <FontAwesome name="info" />
-          </button>
-          <article className="information">
-            <p>Created by <a href="https://danieljauch.bitbucket.io/">Daniel Jauch</a></p>
-          </article>
-        </footer>
+        <Header title={this.title}
+
+          // Search field
+          handleSearchValueChange={this.handleSearchValueChange}
+
+          // Advanced menu
+          menu={this.menu}
+          menuIsOpen={this.state.menuIsOpen}
+          menuToggle={this.menuToggle}
+          handleAdvancedSearchChange={this.handleAdvancedSearchChange}
+          colors={this.state.colors}
+          cardTypes={this.state.cardTypes}
+          sets={this.state.sets}
+          format={this.state.format}
+
+          // Layout menu
+          layoutIsOpen={this.state.layoutIsOpen}
+          layoutToggle={this.layoutToggle}
+          handleLayoutChange={this.handleLayoutChange} />
+        
+        <Main emptySearch={this.emptySearch()}
+					layout={this.state.layout}
+					searchResult={this.state.searchResult} />
+
+        <Footer footerClass={footerClass}
+					infoToggle={this.infoToggle} />
       </div>
     );
   }

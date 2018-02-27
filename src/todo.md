@@ -4,10 +4,6 @@
 
 	- [ ]: Space in search causing issues
 
-##Layout:
-
-	- [ ]: Layout card text better
-
 ##General:
 
 	- [ ]: Break out component files
@@ -19,6 +15,8 @@
 
 	- [ ]: Set, format, CMC, and legality settings
 	- [ ]: Load transition
-	- [ ]: Clear advanced filter
+	- [ ]: Reset settings button
 	- [ ]: Pages
 	- [ ]: Stat modal (?)
+	- [ ]: Combine menus
+	- [ ]: FontAwesome5
