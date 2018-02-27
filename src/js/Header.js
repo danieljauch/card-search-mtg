@@ -35,10 +35,18 @@ export default class Header extends Component {
 			<header className="app-header">
 				<h1 className="header-title">{title}</h1>
 				<Search handleChange={handleSearchValueChange} />
+
+				{/* <nav className="settings-menu">
+					<button className="btn menu-toggle-btn" onClick={menuToggle}>
+						<span>Menu</span>
+						<FontAwesome name="cogs" />
+					</button>
+				</nav> */}
+
 				<nav className="advanced-search">
 					<button className="btn menu-toggle-btn" onClick={menuToggle}>
 						<span>Advanced</span>
-						<FontAwesome name="menu" />
+						<FontAwesome name="cog" />
 					</button>
 					<Menu menuClass={menuClass}
 						menu={menu}
@@ -48,6 +56,7 @@ export default class Header extends Component {
 						sets={sets}
 						format={format} />
 				</nav>
+
 				<div className="layout-select">
 					<button className="btn layout-select-btn" onClick={layoutToggle}>
 						<span>Layout</span>

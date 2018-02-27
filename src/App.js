@@ -4,17 +4,15 @@ import FontAwesome from 'react-fontawesome';  // Docs: https://github.com/danawo
 import { card } from 'mtgsdk';                // Docs: https://docs.magicthegathering.io/
 
 // Styles
-import './css/font-awesome.min.css';          // Docs: https://github.com/danawoodman/react-fontawesome/blob/master/api.md
-import './css/keyrune.min.css';               // Docs: https://andrewgioia.github.io/Keyrune/
-import './css/mana.min.css';                  // Docs: https://andrewgioia.github.io/Mana/
+import './css/font-awesome.min.css'; // Docs: https://fontawesome.com/get-started/web-fonts-with-css
+import './css/keyrune.min.css';     // Docs: https://andrewgioia.github.io/Keyrune/
+import './css/mana.min.css';        // Docs: https://andrewgioia.github.io/Mana/
 import './App.scss';
 
 // Local JS files
 import Header from './js/Header';
 import Main from './js/Main';
 import Footer from './js/Footer';
-
-import Card from './js/Card';
 
 const TICKRATE = 250;
 
@@ -48,23 +46,28 @@ export default class App extends Component {
     this.menu = {
       "Colors": {
         type: "Checkboxes",
-        list: [ "White", "Blue", "Black", "Red", "Green", "Colorless" ]
+        list: [ "White", "Blue", "Black", "Red", "Green", "Colorless" ],
+        current: ""
       },
       "Card Types": {
         type: "Checkboxes",
-        list: [ "Creature", "Enchantment", "Sorcery", "Instant", "Artifact", "Land", "Planeswalker", "Emblem", "Token" ]
+        list: [ "Creature", "Enchantment", "Sorcery", "Instant", "Artifact", "Land", "Planeswalker", "Emblem", "Token" ],
+        current: ""
       },
       "Set": {
         type: "Search",
-        list: [] // Dynamically built from search?
+        list: [], // Dynamically built from search?
+        current: ""
       },
       "Format": {
         type: "Checkboxes",
-        list: [ "Standard", "Modern", "Vintage", "Legacy", "Pauper", "Peasant", "Commander", "Conspiracy", "Silver-border" ]
+        list: [ "Standard", "Modern", "Vintage", "Legacy", "Pauper", "Peasant", "Commander", "Conspiracy", "Silver-border" ],
+        current: ""
       },
       "Rarity": {
         type: "Checkboxes",
-        list: [ "Common", "Uncommon", "Rare", "Mythic Rare" ]
+        list: [ "Common", "Uncommon", "Rare", "Mythic Rare" ],
+        current: ""
       }
     };
 
