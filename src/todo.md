@@ -3,7 +3,6 @@
 ##Issues:
 
 	- [ ]: Space in search causing issues
-	- [ ]: Double mana symbols in card text not at the start
 	- [ ]: Search queue making the card display animation repeat
 
 ##General:
@@ -16,6 +15,9 @@
 	- [ ]: Set, format, CMC, and legality settings
 	- [ ]: Reset settings button
 	- [ ]: Pages
-	- [ ]: Stat modal (?)
 	- [ ]: Menu functions
+
+##Super ideal:
+
 	- [ ]: FontAwesome5
+	- [ ]: Stat modal

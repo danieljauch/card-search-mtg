@@ -15,16 +15,17 @@ export default class Header extends Component {
 
 					// Menu state
 					menu,
-					menuIsOpen,
 					menuToggle,
 					handleAdvancedSearchChange,
-
-					// Menu options
+					handleLayoutChange,
+					appState } = this.props;
+		
+		let { menuIsOpen,
 					colors,
 					cardTypes,
 					sets,
 					format,
-					layout } = this.props;
+					layout } = appState;
 
 		let menuClass = menuIsOpen ? "menu open" : "menu";
 		
@@ -41,7 +42,8 @@ export default class Header extends Component {
 					cardTypes={cardTypes}
 					sets={sets}
 					format={format}
-					menuToggle={menuToggle} />
+					menuToggle={menuToggle}
+					handleLayoutChange={handleLayoutChange} />
 			</header>
 		);
 	}

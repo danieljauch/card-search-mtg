@@ -31,6 +31,8 @@ export default class Card extends Component {
 		let currentParagraph;
 		let editedParagraph = [];
 		let output = [];
+		let symbolStartPos = 0;
+		let beforeSymbol = "";
 		
 		for (let i = 0, l = paragraphs.length; i < l; i++) {
 			if (paragraphs[i].indexOf("{") > -1) {
@@ -40,16 +42,24 @@ export default class Card extends Component {
 				
 				// find the symbol, convert it
 				for (let j = 0, k = currentParagraph.length; j < k; j++) {
-					if (currentParagraph[j].charAt(0) === "{") {
+					symbolStartPos = currentParagraph[j].indexOf("{");
+					
+					if (symbolStartPos === -1) {
+						editedParagraph.push(currentParagraph[j]);
+					} else if (symbolStartPos === 0) {
 						editedParagraph.push((
 							<MTGSymbol output={currentParagraph[j].substring(1).toLowerCase()} type="mana" />
 						));
-					} else if (currentParagraph[j].substring(0, 3) === ", {") {
+					} else {
+						beforeSymbol = currentParagraph[j].substring(0, symbolStartPos);
+
+						if (beforeSymbol !== "")
+							editedParagraph.push(beforeSymbol);
+						
 						editedParagraph.push((
-							<MTGSymbol output={currentParagraph[j].substring(3).toLowerCase()} type="mana" />
+							<MTGSymbol output={currentParagraph[j].substring(symbolStartPos + 1).toLowerCase()} type="mana" />
 						));
-					} else
-						editedParagraph.push(currentParagraph[j]);
+					}
 				}
 
 				// add the finished paragraph in JSX, including the symbols
@@ -73,6 +83,7 @@ export default class Card extends Component {
 	render () {
 		let { card,
 					displayReady } = this.props;
+		
 		let colorIdentity;
 		let cardClass = "card-wrap";
 

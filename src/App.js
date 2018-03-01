@@ -89,7 +89,7 @@ export default class App extends Component {
     let searchQuery;
     if (this.state.queuedSearch === {}) {
       searchQuery = {
-        name: encodeURIComponent(this.state.searchFieldValue),
+        name: encodeURIComponent(this.state.searchFieldValue.trim()),
         pageSize: encodeURIComponent(this.state.searchBuffer),
         page: encodeURIComponent(this.state.resultsPage),
         colors: encodeURIComponent(this.state.colors),
@@ -144,7 +144,7 @@ export default class App extends Component {
     } else {
       this.setState({
         queuedSearch: {
-          name: encodeURIComponent(this.state.searchFieldValue),
+          name: encodeURIComponent(this.state.searchFieldValue.trim()),
           pageSize: encodeURIComponent(this.state.searchBuffer),
           page: encodeURIComponent(this.state.resultsPage),
           colors: encodeURIComponent(this.state.colors),
@@ -212,21 +212,15 @@ export default class App extends Component {
 
 					// Menu state
           menu={this.menu}
-          menuIsOpen={this.state.menuIsOpen}
           menuToggle={this.menuToggle}
           handleAdvancedSearchChange={this.handleAdvancedSearchChange}
+          handleLayoutChange={this.handleLayoutChange}
 
-					// Menu options
-          colors={this.state.colors}
-          cardTypes={this.state.cardTypes}
-          sets={this.state.sets}
-          format={this.state.format}
-					layout={this.state.layout} />
+          // App state
+          appState={this.state} />
         
         <Main emptySearch={this.emptySearch()}
-					layout={this.state.layout}
-          searchResult={this.state.searchResult}
-          displayReady={this.state.displayReady} />
+          appState={this.state} />
 
         <Footer footerIsOpen={this.state.infoIsOpen}
 					infoToggle={this.infoToggle} />

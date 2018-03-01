@@ -7,9 +7,11 @@ import Card from './Card';
 export default class Main extends Component {
 	render () {
 		let { emptySearch,
-					layout,
+					appState } = this.props;
+		
+		let { layout,
 					searchResult,
-					displayReady } = this.props;
+					displayReady } = appState;
 		
 		return (
 			<main className="app-main">

@@ -52,7 +52,8 @@ export default class Menu extends Component {
 	render () {
 		let { menuClass,
 					menu,
-					menuToggle } = this.props;
+					menuToggle,
+					handleLayoutChange } = this.props;
 
 		return (
 			<nav className="menu-wrap">
@@ -90,7 +91,7 @@ export default class Menu extends Component {
 											<div className="menu-choice layout-option" key={cat}>
 												<input type="radio"
 													id={`${this.camelCase(category)}Setting_${cat}`}
-													onChange={() => this.handleLayoutChange(cat.toString.toLowerCase())} />
+													onChange={() => handleLayoutChange(cat.toString().toLowerCase())} />
 												<label htmlFor={`${this.camelCase(category)}Setting_${cat}`}>
 													<FontAwesome name={cat} />
 													<span> {cat}</span>
