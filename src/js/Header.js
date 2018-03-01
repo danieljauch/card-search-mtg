@@ -1,6 +1,5 @@
 // Core Components
 import React, { Component }	from 'react';
-import FontAwesome					from 'react-fontawesome';
 
 // Local JS files
 import Search	from './Search';
@@ -42,6 +41,7 @@ export default class Header extends Component {
 					cardTypes={cardTypes}
 					sets={sets}
 					format={format}
+					layout={layout}
 					menuToggle={menuToggle}
 					handleLayoutChange={handleLayoutChange} />
 			</header>

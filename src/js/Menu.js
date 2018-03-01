@@ -2,6 +2,9 @@
 import React, { Component }	from 'react';
 import FontAwesome					from 'react-fontawesome';
 
+// Local JS files
+// import MTGSymbol from './MTGSymbol';
+
 export default class Menu extends Component {
 	constructor (props) {
 		super(props);
@@ -66,6 +69,8 @@ export default class Menu extends Component {
 						{Object.keys(menu).map(category => (
 							<li className="menu-item" key={category}>
 								<h3 className="menu-item-title">{category}</h3>
+
+								{/* Checkbox style */}
 								{menu[category].type === "Checkboxes" &&
 									<section className="menu-choice-wrap checkbox-menu-choices">
 										{menu[category].list.map(cat => (
@@ -73,11 +78,16 @@ export default class Menu extends Component {
 												<input type="checkbox"
 													id={`${this.camelCase(category)}Setting_${cat}`}
 													onChange={this.handleChange} />
-												<label htmlFor={`${this.camelCase(category)}Setting_${cat}`}>{cat}</label>
+												<label htmlFor={`${this.camelCase(category)}Setting_${cat}`}>
+													{/* <MTGSymbol type="mana" output={cat.toString().toLowerCase()} /> */}
+													<span> {cat}</span>
+												</label>
 											</div>
 										))}
 									</section>
 								}
+
+								{/* Input field style */}
 								{menu[category].type === "Search" &&
 									<section className="menu-choice-wrap search-menu-choices">
 										<div className="menu-choice">
@@ -85,6 +95,8 @@ export default class Menu extends Component {
 										</div>
 									</section>
 								}
+
+								{/* Layout-specific menu layout */}
 								{menu[category].type === "Layout" &&
 									<section className="menu-choice-wrap checkbox-menu-choices">
 										{menu[category].list.map(cat => (
@@ -93,7 +105,7 @@ export default class Menu extends Component {
 													id={`${this.camelCase(category)}Setting_${cat}`}
 													onChange={() => handleLayoutChange(cat.toString().toLowerCase())} />
 												<label htmlFor={`${this.camelCase(category)}Setting_${cat}`}>
-													<FontAwesome name={cat} />
+													<FontAwesome name={menu[category].icons[menu[category].list.indexOf(cat)]} />
 													<span> {cat}</span>
 												</label>
 											</div>
@@ -103,7 +115,10 @@ export default class Menu extends Component {
 							</li>
 						))}
 					</ul>
-					<button className="btn clear-advanced-filter-btn" onClick={this.resetSettings}>Reset</button>
+					<button className="btn clear-advanced-filter-btn" onClick={this.resetSettings}>
+						<FontAwesome name="undo" />
+						<span> Reset to default</span>
+					</button>
 				</div>
 			</nav>
 		);

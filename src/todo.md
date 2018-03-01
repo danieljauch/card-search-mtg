@@ -5,19 +5,17 @@
 	- [ ]: Space in search causing issues
 	- [ ]: Search queue making the card display animation repeat
 
-##General:
-
-	- [ ]: Handle no online connection with local DB
-	- [ ]: Code comments
-
 ##Unfinished features:
 
-	- [ ]: Set, format, CMC, and legality settings
 	- [ ]: Reset settings button
 	- [ ]: Pages
 	- [ ]: Menu functions
+	- [ ]: Better menu styling
 
-##Super ideal:
+##Super duper ideal land:
 
+	- [ ]: Card type symbols
 	- [ ]: FontAwesome5
 	- [ ]: Stat modal
+	- [ ]: Code comments
+	- [ ]: Handle no online connection with local DB

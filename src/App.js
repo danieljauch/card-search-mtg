@@ -160,7 +160,7 @@ export default class App extends Component {
     }
   }
   emptySearch = () => {
-    return this.state.searchResult.length == 0
+    return this.state.searchResult.length === 0
       || (this.state.searchFieldValue === ""
         && this.state.colors === []
         && this.state.cardTypes === []
