@@ -58,13 +58,6 @@ export default class Menu extends Component {
 					menuToggle,
 					handleLayoutChange,
 					appState } = this.props;
-		
-		let { menuIsOpen,
-					colors,
-					cardTypes,
-					sets,
-					format,
-					layout } = appState;
 
 		return (
 			<nav className="menu-wrap">

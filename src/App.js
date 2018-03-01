@@ -209,6 +209,7 @@ export default class App extends Component {
   render() {
     return (
       <div className="app">
+        {/* The header holds the title bar, search bar, and settings menu */}
         <Header title={this.title}
 
           // Search field
@@ -223,9 +224,11 @@ export default class App extends Component {
           // App state
           appState={this.state} />
         
+        {/* This is the main render area that includes any search results or a prompt when no search results are present */}
         <Main emptySearch={this.emptySearch()}
           appState={this.state} />
 
+        {/* This is just a space for the info button at the bottom which reveals the credit link */}
         <Footer footerIsOpen={this.state.infoIsOpen}
 					infoToggle={this.infoToggle} />
       </div>

@@ -18,15 +18,8 @@ export default class Header extends Component {
 					handleAdvancedSearchChange,
 					handleLayoutChange,
 					appState } = this.props;
-		
-		let { menuIsOpen,
-					colors,
-					cardTypes,
-					sets,
-					format,
-					layout } = appState;
 
-		let menuClass = menuIsOpen ? "menu open" : "menu";
+		let menuClass = appState.menuIsOpen ? "menu open" : "menu";
 		
 		return <header className="app-header">
 				<h1 className="header-title">{title}</h1>
