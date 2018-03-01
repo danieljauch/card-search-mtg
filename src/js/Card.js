@@ -65,9 +65,11 @@ export default class Card extends Component {
 				// add the finished paragraph in JSX, including the symbols
 				output.push((
 					<Fragment>
-						{editedParagraph.map((currentParagraph, index) => (
-							<span key={`paragraph_${name}_${index}`}>{currentParagraph}</span>
-						))}
+						{editedParagraph.map((currentParagraph, index) =>
+							<span key={`paragraph_${name}_${index}`}>
+								{currentParagraph}
+							</span>
+						)}
 					</Fragment>
 				));
 			} else {
@@ -87,7 +89,7 @@ export default class Card extends Component {
 		let colorIdentity;
 		let cardClass = "card-wrap";
 
-		if (typeof(card.colorIdentity) !== "undefined") {
+		if (typeof card.colorIdentity !== "undefined") {
 			if (card.colorIdentity.length === 1)
 				colorIdentity = card.colorIdentity.join("");
 			else
@@ -100,8 +102,7 @@ export default class Card extends Component {
 		if (displayReady)
 			cardClass += " display";
 		
-		return (
-			<figure className={cardClass}>
+		return <figure className={cardClass}>
 				{/* Image */}
 				<div className="card-img-wrap">
 					<img className="card-img" src={card.imageUrl} alt={card.name} />
@@ -113,37 +114,42 @@ export default class Card extends Component {
 					<header className="card-header-row">
 						<h3>{card.name}</h3>
 						<h4>{card.type}</h4>
-						{typeof(card.manaCost) !== "undefined" &&
-							<span className="card-info-mana-cost">
-								{this.cardManaCost(card.manaCost).map((manaShortcode, index) => (
-										<MTGSymbol output={manaShortcode}
-											type="mana"
-											key={`symbol_${card.name}_${index}`} />
-									))}
+						{typeof card.manaCost !== "undefined"
+							&& <span className="card-info-mana-cost">
+								{this.cardManaCost(card.manaCost).map((manaShortcode, index) =>
+									<MTGSymbol output={manaShortcode}
+										type="mana"
+										key={`symbol_${card.name}_${index}`} />
+								)}
 							</span>
 						}
 					</header>
 
 					{/* Card text */}
 					<div className="card-info-row">
-						{this.cardText(card.name, card.text).map((currentText, index) => (
-							<p className="card-info-text" key={`cardText_${card.name}_${index}`}>{currentText}</p>
-						))}
+						{this.cardText(card.name, card.text).map((currentText, index) =>
+							<p className="card-info-text" key={`cardText_${card.name}_${index}`}>
+								{currentText}
+							</p>
+						)}
 					</div>
 
 					{/* Flavor text */}
-					{typeof(card.flavor) !== "undefined" &&
+					{typeof card.flavor !== "undefined" &&
 						<div className="card-info-row">
-							{card.flavor.split("\n").map((currentText, index) => (
-								<p className="card-info-flavor-text" key={`flavorText_${card.name}_${index}`}>{currentText}</p>
-							))}
+							{card.flavor.split("\n").map((currentText, index) =>
+								<p className="card-info-flavor-text" key={`flavorText_${card.name}_${index}`}>
+									{currentText}
+								</p>
+							)}
 						</div>
 					}
 
 					{/* Footer: power / toughness, set, collector number */}
 					<footer className="card-footer-row">
-						{typeof(card.power) !== "undefined" && typeof(card.toughness) !== "undefined" &&
-							<p className="card-info-power-toughness">{`[${card.power}/${card.toughness}]`}</p>
+						{typeof card.power !== "undefined"
+							&& typeof card.toughness !== "undefined"
+							&& <p className="card-info-power-toughness">{`[${card.power}/${card.toughness}]`}</p>
 						}
 						<h5 className="card-info-set-number">
 							<span className="card-info-set-symbol">
@@ -156,6 +162,5 @@ export default class Card extends Component {
 					</footer>
 				</figcaption>
 			</figure>
-		);
 	}
 }

@@ -22,9 +22,7 @@ export default class MTGSymbol extends Component {
 		} else
 			console.log("Invalid symbol type:", type);
 		
-		return (
-			<i className={fullClassName}></i>
-		);
+		return <i className={fullClassName}></i>;
 	}
 }
 // Mana:

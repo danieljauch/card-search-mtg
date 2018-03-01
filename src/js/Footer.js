@@ -9,8 +9,7 @@ export default class Footer extends Component {
 		
 		let footerClass = footerIsOpen ? "app-footer open" : "app-footer";
 		
-		return (
-			<footer className={footerClass}>
+		return <footer className={footerClass}>
 				<button className="btn info-btn circle-btn" onClick={infoToggle}>
 					<FontAwesome name="info" />
 				</button>
@@ -18,6 +17,5 @@ export default class Footer extends Component {
 					<p>Created by <a href="https://danieljauch.bitbucket.io/">Daniel Jauch</a></p>
 				</article>
 			</footer>
-		);
 	}
 }

@@ -28,23 +28,17 @@ export default class Header extends Component {
 
 		let menuClass = menuIsOpen ? "menu open" : "menu";
 		
-		return (
-			<header className="app-header">
+		return <header className="app-header">
 				<h1 className="header-title">{title}</h1>
 
 				<Search handleChange={handleSearchValueChange} />
 
 				<Menu menuClass={menuClass}
 					menu={menu}
-					handleChange={handleAdvancedSearchChange}
-					colors={colors}
-					cardTypes={cardTypes}
-					sets={sets}
-					format={format}
-					layout={layout}
 					menuToggle={menuToggle}
-					handleLayoutChange={handleLayoutChange} />
+					handleChange={handleAdvancedSearchChange}
+					handleLayoutChange={handleLayoutChange}
+					appState={appState} />
 			</header>
-		);
 	}
 }

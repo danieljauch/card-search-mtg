@@ -56,7 +56,15 @@ export default class Menu extends Component {
 		let { menuClass,
 					menu,
 					menuToggle,
-					handleLayoutChange } = this.props;
+					handleLayoutChange,
+					appState } = this.props;
+		
+		let { menuIsOpen,
+					colors,
+					cardTypes,
+					sets,
+					format,
+					layout } = appState;
 
 		return (
 			<nav className="menu-wrap">
@@ -66,24 +74,25 @@ export default class Menu extends Component {
 				</button>
 				<div className={menuClass}>
 					<ul className="menu-list">
-						{Object.keys(menu).map(category => (
+						{Object.keys(menu).map(category =>
 							<li className="menu-item" key={category}>
 								<h3 className="menu-item-title">{category}</h3>
 
 								{/* Checkbox style */}
 								{menu[category].type === "Checkboxes" &&
 									<section className="menu-choice-wrap checkbox-menu-choices">
-										{menu[category].list.map(cat => (
+										{menu[category].list.map(cat =>
 											<div className="menu-choice" key={cat}>
 												<input type="checkbox"
 													id={`${this.camelCase(category)}Setting_${cat}`}
-													onChange={this.handleChange} />
+													onChange={this.handleChange}
+													checked={appState[category.toString().toLowerCase()] === cat} />
 												<label htmlFor={`${this.camelCase(category)}Setting_${cat}`}>
 													{/* <MTGSymbol type="mana" output={cat.toString().toLowerCase()} /> */}
 													<span> {cat}</span>
 												</label>
 											</div>
-										))}
+										)}
 									</section>
 								}
 
@@ -99,21 +108,22 @@ export default class Menu extends Component {
 								{/* Layout-specific menu layout */}
 								{menu[category].type === "Layout" &&
 									<section className="menu-choice-wrap checkbox-menu-choices">
-										{menu[category].list.map(cat => (
+										{menu[category].list.map(cat =>
 											<div className="menu-choice layout-option" key={cat}>
 												<input type="radio"
 													id={`${this.camelCase(category)}Setting_${cat}`}
-													onChange={() => handleLayoutChange(cat.toString().toLowerCase())} />
+													onChange={() => handleLayoutChange(cat.toString().toLowerCase())}
+													checked={appState[category.toString().toLowerCase()] === cat.toString().toLowerCase()} />
 												<label htmlFor={`${this.camelCase(category)}Setting_${cat}`}>
 													<FontAwesome name={menu[category].icons[menu[category].list.indexOf(cat)]} />
 													<span> {cat}</span>
 												</label>
 											</div>
-										))}
+										)}
 									</section>
 								}
 							</li>
-						))}
+						)}
 					</ul>
 					<button className="btn clear-advanced-filter-btn" onClick={this.resetSettings}>
 						<FontAwesome name="undo" />

@@ -160,12 +160,13 @@ export default class App extends Component {
     }
   }
   emptySearch = () => {
-    return this.state.searchResult.length === 0
-      || (this.state.searchFieldValue === ""
-        && this.state.colors === []
-        && this.state.cardTypes === []
-        && this.state.sets === []
-        && this.state.format === []);
+    return this.state.displayReady
+      && (this.state.searchResult.length === 0
+        || (this.state.searchFieldValue === ""
+          && this.state.colors === []
+          && this.state.cardTypes === []
+          && this.state.sets === []
+          && this.state.format === []));
   }
   menuToggle = () => {
     this.setState({
@@ -190,8 +191,11 @@ export default class App extends Component {
     return searchValue;
   }
   handleAdvancedSearchChange = change => {
+    let { propToChange,
+          updatedArray } = change;
+    
     this.setState({
-      [change.propToChange]: change.updatedArray
+      [propToChange]: updatedArray
     })
 
     this.search();
