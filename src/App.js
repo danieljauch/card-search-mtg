@@ -36,7 +36,6 @@ export default class App extends Component {
       searchFieldValue: "",
       colors: [],
       cardTypes: [],
-      sets: [],
       format: [],
       layout: "list"
     };
@@ -51,11 +50,6 @@ export default class App extends Component {
       "Card Types": {
         type: "Checkboxes",
         list: [ "Creature", "Enchantment", "Sorcery", "Instant", "Artifact", "Land", "Planeswalker", "Emblem", "Token" ],
-        current: ""
-      },
-      "Set": {
-        type: "Search",
-        list: [], // Dynamically built from search?
         current: ""
       },
       "Format": {
@@ -94,7 +88,6 @@ export default class App extends Component {
         page: encodeURIComponent(this.state.resultsPage),
         colors: encodeURIComponent(this.state.colors),
         types: encodeURIComponent(this.state.cardTypes),
-        set: encodeURIComponent(this.state.sets),
         legalities: encodeURIComponent(this.state.format)
       };
     } else
@@ -149,7 +142,6 @@ export default class App extends Component {
           page: encodeURIComponent(this.state.resultsPage),
           colors: encodeURIComponent(this.state.colors),
           types: encodeURIComponent(this.state.cardTypes),
-          set: encodeURIComponent(this.state.sets),
           legalities: encodeURIComponent(this.state.format)
         }
       });
@@ -165,7 +157,6 @@ export default class App extends Component {
         || (this.state.searchFieldValue === ""
           && this.state.colors === []
           && this.state.cardTypes === []
-          && this.state.sets === []
           && this.state.format === []));
   }
   menuToggle = () => {

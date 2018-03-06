@@ -7,6 +7,20 @@
 			transition-delay: $i * .1s;
 		}
 	}
+	&.list-layout,
+	&.text-layout,
+	&.grid-layout {
+		.card-info-power-toughness {
+			text-align: left;
+			display: inline-block;
+			width: calc(100% - 8.5rem);
+		}
+		.card-info-set-number {
+			float: right;
+			width: 8rem;
+			margin-top: -.25rem;
+		}
+	}
 	&.list-layout {
 		display: flex;
 		flex-direction: column;
@@ -36,6 +50,9 @@
 		.card-info-mana-cost {
 			float: none;
 			margin: 0;
+		}
+		.card-info-power-toughness {
+			text-align: right;
 		}
 	}
 	&.text-layout {

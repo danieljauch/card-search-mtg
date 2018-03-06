@@ -81,20 +81,10 @@ export default class Menu extends Component {
 													onChange={this.handleChange}
 													checked={appState[category.toString().toLowerCase()] === cat} />
 												<label htmlFor={`${this.camelCase(category)}Setting_${cat}`}>
-													{/* <MTGSymbol type="mana" output={cat.toString().toLowerCase()} /> */}
 													<span> {cat}</span>
 												</label>
 											</div>
 										)}
-									</section>
-								}
-
-								{/* Input field style */}
-								{menu[category].type === "Search" &&
-									<section className="menu-choice-wrap search-menu-choices">
-										<div className="menu-choice">
-											<input type="search" id={`${this.camelCase(category)}Setting`} />
-										</div>
 									</section>
 								}
 
