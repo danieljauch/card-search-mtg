@@ -1,7 +1,6 @@
 // Core Components
-import React, { Component } from 'react';   // Docs: https://reactjs.org/docs/
-// import { card }             from 'mtgsdk';  // Docs: https://docs.magicthegathering.io/
-import fetch                from 'node-fetch';
+import React, { Component } from 'react';       // Docs: https://reactjs.org/docs/
+import fetch                from 'node-fetch';  // Docs: https://www.npmjs.com/package/node-fetch
 
 // Styles
 import './css/font-awesome.min.css'; // Docs: https://fontawesome.com/get-started/web-fonts-with-css
