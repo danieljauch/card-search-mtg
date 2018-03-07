@@ -1,6 +1,7 @@
 // Core Components
 import React, { Component } from 'react';   // Docs: https://reactjs.org/docs/
-import { card }             from 'mtgsdk';  // Docs: https://docs.magicthegathering.io/
+// import { card }             from 'mtgsdk';  // Docs: https://docs.magicthegathering.io/
+import fetch                from 'node-fetch';
 
 // Styles
 import './css/font-awesome.min.css'; // Docs: https://fontawesome.com/get-started/web-fonts-with-css
@@ -55,7 +56,7 @@ export default class App extends Component {
       },
       "Format": {
         type: "Checkboxes",
-        list: [ "Standard", "Modern", "Vintage", "Legacy", "Pauper", "Peasant", "Commander", "Conspiracy", "Silver-border" ],
+        list: [ "Standard", "Modern", "Vintage", "Legacy", "Pauper", "Peasant", "Commander", "Un-Sets" ],
         current: ""
       },
       "Rarity": {
@@ -81,16 +82,9 @@ export default class App extends Component {
     });
     
     let searchQuery;
-    if (Object.keys(this.state.queuedSearch).length === 0) {
-      searchQuery = {
-        name: this.state.searchFieldValue.trim(),
-        pageSize: this.state.searchBuffer,
-        page: this.state.resultsPage,
-        colors: this.state.colors,
-        types: this.state.cardTypes,
-        legalities: this.state.format
-      };
-    } else
+    if (Object.keys(this.state.queuedSearch).length === 0)
+      searchQuery = this.buildSearchString();
+    else
       searchQuery = this.state.queuedSearch;
 
 
@@ -105,25 +99,31 @@ export default class App extends Component {
         });
       }
   
-      card.where(searchQuery)
-        .then(result => {
+      fetch(`https://api.magicthegathering.io/v1/cards${searchQuery}`)
+        .then(r => r.json())
+        .then(response => {
+          let { cards } = response;
+
+          console.log(cards);
+          
+
           this.setState({
             searchInProgress: false,
-            searchResult: result,
+            searchResult: cards,
             completedSearches: this.state.completedSearches + 1,
-            currentResultCount: result.length,
-            runningResultCount: this.state.runningResultCount + result.length,
+            currentResultCount: cards.length,
+            runningResultCount: this.state.runningResultCount + cards.length,
             morePages: this.state.currentResultCount > this.state.pageSize
           });
-
+  
           setTimeout(() => {
             this.setState({
               displayReady: true
             });
-          }, TICKRATE)
+          }, TICKRATE);
+        }).catch(error => {
+          console.error(error);
         });
-  
-      // check valid results, no errors, backup search from local database
 
       // console.log("Stats:");
       // console.log("searchQuery:", searchQuery);
@@ -136,20 +136,30 @@ export default class App extends Component {
       return this.state.searchResult;
     } else {
       this.setState({
-        queuedSearch: {
-          name: this.state.searchFieldValue.trim(),
-          pageSize: this.state.searchBuffer,
-          page: this.state.resultsPage,
-          colors: this.state.colors,
-          types: this.state.cardTypes,
-          legalities: this.state.format
-        }
+        queuedSearch: this.buildSearchString()
       });
 
       setTimeout(this.search, TICKRATE);
 
       return this.state.queuedSearch;
     }
+  }
+  buildSearchString = () => {
+    let ret = `?name=${this.state.searchFieldValue.trim()}&pageSize=${this.state.searchBuffer}&page=${this.state.resultsPage}`;
+    
+    if (this.state.colors.length > 0)
+      ret += `&colors=${this.state.colors.join("|")}`;
+
+    if (this.state.cardTypes.length > 0)
+      ret += `&types=${this.state.cardTypes.join("|")}`;
+
+    if (this.state.format.length > 0)
+      ret += `&gameFormat=${this.state.format.join("|")}`;
+
+    if (this.state.rarity.length > 0)
+      ret += `&rarity=${this.state.rarity.join("|")}`;
+
+    return ret;
   }
   emptySearch = () => {
     return this.state.displayReady
