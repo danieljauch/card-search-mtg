@@ -37,6 +37,7 @@ export default class App extends Component {
       colors: [],
       cardTypes: [],
       format: [],
+      rarity: [],
       layout: "list"
     };
 
@@ -49,7 +50,7 @@ export default class App extends Component {
       },
       "Card Types": {
         type: "Checkboxes",
-        list: [ "Creature", "Enchantment", "Sorcery", "Instant", "Artifact", "Land", "Planeswalker", "Emblem", "Token" ],
+        list: [ "Creature", "Enchantment", "Sorcery", "Instant", "Artifact", "Land", "Planeswalker" ],
         current: ""
       },
       "Format": {
@@ -65,7 +66,6 @@ export default class App extends Component {
       "Layout": {
         type: "Layout",
         list: [ "List", "Grid", "Card", "Text" ],
-        icons: [ "list", "th-large", "th", "font" ],
         current: ""
       }
     };
@@ -81,14 +81,14 @@ export default class App extends Component {
     });
     
     let searchQuery;
-    if (this.state.queuedSearch === {}) {
+    if (Object.keys(this.state.queuedSearch).length === 0) {
       searchQuery = {
-        name: encodeURIComponent(this.state.searchFieldValue.trim()),
-        pageSize: encodeURIComponent(this.state.searchBuffer),
-        page: encodeURIComponent(this.state.resultsPage),
-        colors: encodeURIComponent(this.state.colors),
-        types: encodeURIComponent(this.state.cardTypes),
-        legalities: encodeURIComponent(this.state.format)
+        name: this.state.searchFieldValue.trim(),
+        pageSize: this.state.searchBuffer,
+        page: this.state.resultsPage,
+        colors: this.state.colors,
+        types: this.state.cardTypes,
+        legalities: this.state.format
       };
     } else
       searchQuery = this.state.queuedSearch;
@@ -99,7 +99,7 @@ export default class App extends Component {
         searchInProgress: true
       });
 
-      if (this.state.queuedSearch !== {}) {
+      if (Object.keys(this.state.queuedSearch).length > 0) {
         this.setState({
           queuedSearch: {}
         });
@@ -137,12 +137,12 @@ export default class App extends Component {
     } else {
       this.setState({
         queuedSearch: {
-          name: encodeURIComponent(this.state.searchFieldValue.trim()),
-          pageSize: encodeURIComponent(this.state.searchBuffer),
-          page: encodeURIComponent(this.state.resultsPage),
-          colors: encodeURIComponent(this.state.colors),
-          types: encodeURIComponent(this.state.cardTypes),
-          legalities: encodeURIComponent(this.state.format)
+          name: this.state.searchFieldValue.trim(),
+          pageSize: this.state.searchBuffer,
+          page: this.state.resultsPage,
+          colors: this.state.colors,
+          types: this.state.cardTypes,
+          legalities: this.state.format
         }
       });
 
@@ -187,7 +187,7 @@ export default class App extends Component {
     
     this.setState({
       [propToChange]: updatedArray
-    })
+    });
 
     this.search();
   }
@@ -196,6 +196,19 @@ export default class App extends Component {
       layout: _layout
     });
   }
+	resetSettings = () => {
+		this.setState({
+      colors: [],
+      cardTypes: [],
+      format: [],
+      rarity: [],
+      layout: "list"
+    });
+
+    for (let item in this.menu) {
+      this.menu[item].current = "";
+    }
+	}
 
   render() {
     return (
@@ -211,6 +224,7 @@ export default class App extends Component {
           menuToggle={this.menuToggle}
           handleAdvancedSearchChange={this.handleAdvancedSearchChange}
           handleLayoutChange={this.handleLayoutChange}
+          resetSettings={this.resetSettings}
 
           // App state
           appState={this.state} />

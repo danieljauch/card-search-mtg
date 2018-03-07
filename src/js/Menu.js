@@ -2,9 +2,6 @@
 import React, { Component }	from 'react';
 import FontAwesome					from 'react-fontawesome';
 
-// Local JS files
-// import MTGSymbol from './MTGSymbol';
-
 export default class Menu extends Component {
 	constructor (props) {
 		super(props);
@@ -12,15 +9,12 @@ export default class Menu extends Component {
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	resetSettings = e => {
-		
-	}
 	handleChange = e => {
 		let targetID = e.target.id.split("Setting_");
 		let isChecked = e.target.checked;
-    let tempArray = this.props[targetID[0]];
+    let tempArray = this.props.appState[targetID[0]];
 		let removeIndex;
-
+		
 		if (isChecked)
 			tempArray.push(targetID[1]);
 		else {
@@ -57,6 +51,7 @@ export default class Menu extends Component {
 					menu,
 					menuToggle,
 					handleLayoutChange,
+					resetSettings,
 					appState } = this.props;
 
 		return (
@@ -79,7 +74,7 @@ export default class Menu extends Component {
 												<input type="checkbox"
 													id={`${this.camelCase(category)}Setting_${cat}`}
 													onChange={this.handleChange}
-													checked={appState[category.toString().toLowerCase()] === cat} />
+													checked={appState[this.camelCase(category)].indexOf(cat) > -1} />
 												<label htmlFor={`${this.camelCase(category)}Setting_${cat}`}>
 													<span> {cat}</span>
 												</label>
@@ -96,9 +91,8 @@ export default class Menu extends Component {
 												<input type="radio"
 													id={`${this.camelCase(category)}Setting_${cat}`}
 													onChange={() => handleLayoutChange(cat.toString().toLowerCase())}
-													checked={appState[category.toString().toLowerCase()] === cat.toString().toLowerCase()} />
+													checked={appState[this.camelCase(category)] === cat.toString().toLowerCase()} />
 												<label htmlFor={`${this.camelCase(category)}Setting_${cat}`}>
-													<FontAwesome name={menu[category].icons[menu[category].list.indexOf(cat)]} />
 													<span> {cat}</span>
 												</label>
 											</div>
@@ -108,7 +102,7 @@ export default class Menu extends Component {
 							</li>
 						)}
 					</ul>
-					<button className="btn clear-advanced-filter-btn" onClick={this.resetSettings}>
+					<button className="btn clear-advanced-filter-btn" onClick={() => resetSettings()}>
 						<FontAwesome name="undo" />
 						<span> Reset to default</span>
 					</button>

@@ -17,6 +17,9 @@ export default class Header extends Component {
 					menuToggle,
 					handleAdvancedSearchChange,
 					handleLayoutChange,
+					resetSettings,
+
+					// App state
 					appState } = this.props;
 
 		let menuClass = appState.menuIsOpen ? "menu open" : "menu";
@@ -31,6 +34,7 @@ export default class Header extends Component {
 					menuToggle={menuToggle}
 					handleChange={handleAdvancedSearchChange}
 					handleLayoutChange={handleLayoutChange}
+					resetSettings={resetSettings}
 					appState={appState} />
 			</header>
 	}
