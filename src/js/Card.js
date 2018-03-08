@@ -15,14 +15,15 @@ export default class Card extends Component {
 			}
 
 			return finalOutput;
-		} else
-			return manaCost;
+		}
+		
+		return manaCost;
 	}
 	cardNumber = num => {
 		if (num < 10)
-			return "00" + num;
+			return `00${num}`;
 		if (num < 100)
-			return "0" + num;
+			return `0${num}`;
 
 		return num;
 	}

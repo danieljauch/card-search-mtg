@@ -13,24 +13,22 @@ export default class Menu extends Component {
 		let targetID = e.target.id.split("Setting_");
 		let isChecked = e.target.checked;
     let tempArray = this.props.appState[targetID[0]];
-		let removeIndex;
 		
 		if (isChecked)
 			tempArray.push(targetID[1]);
 		else {
-			removeIndex = tempArray.indexOf(targetID[1]);
+			let removeIndex = tempArray.indexOf(targetID[1]);
 			tempArray.splice(removeIndex, 1);
 		}
 		
-		this.props.handleChange({
-			propToChange: targetID[0],
-			updatedArray: tempArray
-		})
-		
-		return {
+		let ret = {
 			propToChange: targetID[0],
 			updatedArray: tempArray
 		};
+
+		this.props.handleChange(ret);
+		
+		return ret;
 	}
 	camelCase = str => {
 		let stringWords = str.split(" ");

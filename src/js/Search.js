@@ -14,13 +14,15 @@ export default class Search extends Component {
 	}
 
 	handleChange = e => {
+		let { value } = e.target;
+
 		this.setState({
-			value: e.target.value
+			value: value
 		});
 
-		this.props.handleChange(encodeURIComponent(e.target.value));
+		this.props.handleChange(value);
 
-		return e.target.value;
+		return value;
 	}
 	handleSearchSubmit = e => {
 		e.preventDefault();

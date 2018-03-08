@@ -19,8 +19,10 @@ export default class MTGSymbol extends Component {
 			if (output.length > 1 &&
 					output.substr(output.length - 1) !== "p")
 				fullClassName += " ms-split";
-		} else
+		} else {
 			console.log("Invalid symbol type:", type);
+			return <span></span>;
+		}
 		
 		return <i className={fullClassName}></i>;
 	}
