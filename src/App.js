@@ -41,7 +41,7 @@ export default class App extends Component {
       layout: "list"
     };
 
-    this.title = "MTG Card Search";
+    this.title = "Cardboard Tutor";
     this.menu = {
       "Colors": {
         type: "Checkboxes",
