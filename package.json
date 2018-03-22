@@ -1,6 +1,7 @@
 {
   "name": "card-search-mtg",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "homepage": "http://cardboardtutor.com",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-free-webfonts": "^1.0.4",
